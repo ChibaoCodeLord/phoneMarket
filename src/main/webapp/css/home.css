@@ -43,7 +43,7 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    padding: 5px 18px;
+    padding: 5px 17px;
     flex-wrap: wrap;
     min-height: 90px;
 }
