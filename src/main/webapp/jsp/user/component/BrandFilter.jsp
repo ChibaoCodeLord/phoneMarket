@@ -3,7 +3,7 @@
     <div class="container">
         <div class="brand-list">
             <%
-                String[] brands = {"Apple", "Samsung", "Xiaomi", "Oppo", "Tecno", "Honor", "ZTE", "Nubia", "Sony", "Nokia", "Infinix", "Nothing", "Meizu", "Realme", "Vivo", "OnePlus", "TCL", "Inoi", "Benco", "Asus"};
+                String[] brands = {"Apple", "Samsung", "Xiaomi", "Oppo", "Tecno", "Honor", "ZTE", "Nubia", "Sony", "Nokia", "Infinix", "Nothing", "Meizu", "Realme", "Vivo"};
                 for (String brand : brands) {
             %>
             <button class="brand-btn"><%= brand %></button>
