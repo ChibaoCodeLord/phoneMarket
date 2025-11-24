@@ -1,6 +1,6 @@
 package com.phonemarket.model.bean;
 
-public class User {
+public class Users {
     private String username;
     private String password;
     private int userId;
@@ -9,10 +9,10 @@ public class User {
     private String address;
     private String fullName;
     private boolean role;
-    public User() {
+    public Users() {
 
     }
-    public User(String username, String password, String email, String phone, String address, String fullName) {
+    public Users(String username, String password, String email, String phone, String address, String fullName) {
         this.username = username;
         this.password = password;
         this.email = email;

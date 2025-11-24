@@ -15,7 +15,10 @@ public class ProductsBo {
 
     // Lấy tất cả sản phẩm
     public List<Products> getAllProducts() throws SQLException {
-        return productsDao.getAllProducts();
+        System.out.println("DEBUG BO - Calling DAO findAll()");  // Log gọi DAO
+        List<Products> list = productsDao.findAll();
+        System.out.println("DEBUG BO - DAO returned " + (list != null ? list.size() : 0) + " products");  // Log size
+        return list;
     }
 
     // Lấy sản phẩm theo ID

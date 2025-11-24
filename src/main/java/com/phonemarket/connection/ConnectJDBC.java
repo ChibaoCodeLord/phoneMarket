@@ -11,7 +11,7 @@ public class ConnectJDBC {
             "jdbc:mysql://127.0.0.1:3307/phonemarket?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
 
     private static final String USER = "root";
-    private static final String PASSWORD = "000000"; // trống nếu XAMPP root không có password
+    private static final String PASSWORD = ""; // trống nếu XAMPP root không có password
 
     static {
         try {
