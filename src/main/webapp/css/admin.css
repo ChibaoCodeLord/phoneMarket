@@ -290,7 +290,6 @@ body{font-family: "Segoe UI", Roboto, Arial, sans-serif; margin:0; background:#f
 
 .product-image-thumb {
     max-width:160px;  /* Đặt chiều rộng tối đa mong muốn */
-    max-height: 160px; /* Đặt chiều cao tối đa (tùy chọn) */
     width: auto;      /* Đảm bảo chiều rộng tự động nếu nhỏ hơn max-width */
     height: auto;     /* Giữ tỷ lệ ảnh */
     object-fit: cover; /* Đảm bảo ảnh luôn lấp đầy không gian mà không bị méo (nếu bạn đặt cả width và height) */

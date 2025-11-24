@@ -82,6 +82,15 @@
   </aside>
 
   <main class="main-content">
+
+    <c:if test="${not empty success}">
+      <div class="alert alert-success">${success}</div>
+    </c:if>
+
+    <c:if test="${not empty error}">
+      <div class="alert alert-danger">${error}</div>
+    </c:if>
+
     <header class="header">
       <h1>Product List</h1>
       <p>Quản lý và xem danh sách các sản phẩm hiện có trong hệ thống.</p>
@@ -125,7 +134,7 @@
                     <img src="${pageContext.request.contextPath}${p.image}" alt="${p.name}" />
                 </td>
                 <td class="actions">
-                  <a href="${pageContext.request.contextPath}/admin/products/edit?id=${p.id}"><i class="fas fa-edit"></i> Edit</a> |
+                  <a href="${pageContext.request.contextPath}/admin/products/update?id=${p.id}"><i class="fas fa-edit"></i> Edit</a> |
                   <a href="${pageContext.request.contextPath}/admin/products/delete?id=${p.id}"
                      onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm ID: ${p.id} không?');"><i class="fas fa-trash-alt"></i> Delete</a>
                 </td>

@@ -80,7 +80,7 @@ public class ProductsDao {
     }
 
     public boolean update(Products p) throws SQLException {
-        String sql = "UPDATE products SET name = ?, description = ?, price = ?, image_url = ? stock_quantity = ?  WHERE id = ?";
+        String sql = "UPDATE products SET name = ?, description = ?, price = ?, image_url = ?, stock_quantity = ?  WHERE product_id = ?";
         try (Connection c = getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, p.getName());
