@@ -1,6 +1,6 @@
 package com.phonemarket.controller.auth;
 import com.phonemarket.model.bo.authBO;
-import com.phonemarket.model.bean.User;
+import com.phonemarket.model.bean.Users;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,11 +24,11 @@ public class LoginController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         try {
-            User user = authBO.login(username, password);  // Gọi BO
+            Users user = authBO.login(username, password);  // Gọi BO
             HttpSession session = req.getSession();
             session.setAttribute("user", user.getUsername());  // Lưu vào session
             if(user.isRole()){
-                resp.sendRedirect("/jsp/admin/home.jsp");
+                resp.sendRedirect("/jsp/admin/products/admin-products.jsp");
             }else {
                 resp.sendRedirect(req.getContextPath() + "/products");
             }// Thành công

@@ -1,6 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" import="com.phonemarket.model.bean.Products,java.util.List" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -8,16 +8,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products Management - PhoneMarket Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
-    <link rel="stylesheet" href="/css/admin.css">
-    <link rel="stylesheet" href="/css/component/dropdown.css">
-    <link rel="stylesheet" href="/css/admin-products.css">
+    <link rel="stylesheet" href="/css/admin/admin-home.css">
+    <link rel="stylesheet" href="/css/admin/admin-table.css">
+    <style>
+        .product-img { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; }
+        .no-data { text-align: center; padding: 40px; color: #64748b; }
+    </style>
 </head>
 <body>
 <div class="admin-wrapper">
     <!-- Include Sidebar nếu cần (từ trước) -->
-    <%@ include file="../component/sidebar.jsp" %>
+    <%@ include file="../component/sidebar.jsp" %>  <!-- Adjust path nếu cần -->
 
     <!-- Main Content -->
     <main class="main-content">
@@ -27,14 +28,14 @@
         <!-- Breadcrumb & New Product Button -->
         <div class="breadcrumb-section">
             <nav class="breadcrumb">
-                <a href="${pageContext.request.contextPath}/admin/home"><i class="fas fa-home"></i> Home</a>
+                <a href="/admin/home"><i class="fas fa-home"></i> Home</a>
                 <span>/</span>
                 <a href="#">Ecommerce</a>
                 <span>/</span>
                 <span>Products</span>
             </nav>
-            <button class="btn-new-product" onclick="window.location.href='${pageContext.request.contextPath}/admin/products/new'">
-                <i class="fas fa-plus"></i> New Product
+            <button class="btn-new-product" onclick="window.location.href='/admin/products/add'">
+                <i class="fas fa-plus"></i>  New Product
             </button>
         </div>
 
@@ -63,49 +64,52 @@
                 <thead>
                 <tr>
                     <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
-                    <th>Product</th>
-                    <th>Category</th>
-                    <th>Added Date</th>
+                    <th>Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
-                    <th>Status</th>
+
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <!-- Giả lập data mẫu trực tiếp trong JSP (không cần Controller) -->
-                <c:forEach varStatus="status" begin="1" end="4" step="1">
-                    <tr>
-                        <td><input type="checkbox" class="row-checkbox"></td>
-                        <td>
-                            <div class="product-info">
-                                <img src="/images/iphone.jpg" alt="Transparent Sunglasses" class="product-img">
-                                <span>Transparent Sunglasses ${status.index}</span>
-                            </div>
-                        </td>
-                        <td>
-                           IPhone
-                        </td>
-                        <td>19 Jul, 2025</td>  <!-- Hardcode date string để tránh fmt error -->
-                        <td>$65.29</td>
-                        <td>235</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${status.index % 2 == 0}">
-                                    <span class="status active">Active</span>
-                                </c:when>
-                                <c:otherwise>
-                                    <span class="status inactive">Inactive</span>
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td class="action-buttons">
-                            <a href="#" title="View"><i class="fas fa-eye"></i></a>
-                            <a href="#" title="Edit"><i class="fas fa-edit"></i></a>
-                            <a href="#" title="Delete" onclick="return confirm('Xóa sản phẩm?')"><i class="fas fa-trash"></i></a>
-                        </td>
-                    </tr>
-                </c:forEach>
+                <%
+                    List<Products> productsList = (List<Products>) request.getAttribute("productsList");
+                    if (productsList != null && !productsList.isEmpty()) {
+                        for (Products product : productsList) {
+                %>
+                <tr>
+                    <td><input type="checkbox" class="row-checkbox"></td>
+                    <td>
+                        <div class="product-info">
+                            <img src="<%= product.getImage() %>" alt="<%= product.getName() %>" class="product-img">
+                            <span><%= product.getName() %></span>
+                        </div>
+                    </td>
+
+
+                    <td>$<%= product.getPrice() %></td>
+                    <td><%= product.getStock_quantity() %></td>
+
+                    <td class="action-buttons">
+                        <a href="/admin/products/view/<%= product.getId() %>" title="View"><i class="fas fa-eye"></i></a>
+                        <a href="/admin/products/edit?id=<%= product.getId() %>" title="Edit"><i class="fas fa-edit"></i></a>
+                        <a href="/admin/products/delete?id=<%= product.getId() %>" title="Delete" onclick="return confirm('Xóa sản phẩm?')"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <%
+                    }
+                } else {
+                %>
+                <tr>
+                    <td colspan="8" class="no-data">
+                        <i class="fas fa-box-open" style="font-size: 3rem; color: #cbd5e1;"></i>
+                        <p>Không có sản phẩm nào. Kiểm tra Controller/DB.</p>
+                        <a href="/admin/products/add">Thêm sản phẩm mới</a>
+                    </td>
+                </tr>
+                <%
+                    }
+                %>
                 </tbody>
             </table>
         </div>
@@ -113,7 +117,19 @@
         <!-- Pagination -->
         <div class="pagination-section">
             <div class="pagination-info">
-                Showing 1 to 4 of 4 entries  <!-- Hardcode cho test -->
+                Showing 1 to <%
+                if (productsList != null) {
+                    out.print(productsList.size());
+                } else {
+                    out.print(0);
+                }
+            %> of <%
+                if (productsList != null) {
+                    out.print(productsList.size());
+                } else {
+                    out.print(0);
+                }
+            %> entries
             </div>
             <div class="pagination-buttons">
                 <button class="btn-pag prev" onclick="changePage(-1)">Previous</button>
@@ -125,7 +141,7 @@
 </div>
 
 <!-- JS cho search, filter, pagination -->
-<script src="${pageContext.request.contextPath}/js/admin-script.js"></script>
+<script src="/js/admin-script.js"></script>
 <script>
     // JS đơn giản cho test (filter/search work trên data giả lập)
     function filterTable() {

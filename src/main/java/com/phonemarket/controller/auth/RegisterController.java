@@ -1,7 +1,7 @@
 package com.phonemarket.controller.auth;
 
 import com.phonemarket.model.bo.authBO;
-import com.phonemarket.model.bean.User;
+import com.phonemarket.model.bean.Users;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -57,7 +57,7 @@ public class RegisterController extends HttpServlet {
         }
 
         // Tạo User với trim (phone/address optional)
-        User user = new User(username.trim(), password.trim(), email.trim(),
+        Users user = new Users(username.trim(), password.trim(), email.trim(),
                 phone != null ? phone.trim() : null,
                 address != null ? address.trim() : null, fullName.trim());
 

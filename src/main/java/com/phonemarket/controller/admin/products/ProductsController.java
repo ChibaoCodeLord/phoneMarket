@@ -1,4 +1,4 @@
-package com.phonemarket.controller.admin;
+package com.phonemarket.controller.admin.products;
 
 import com.phonemarket.model.bean.Products;
 import com.phonemarket.model.bo.ProductsBo;
@@ -13,6 +13,7 @@ import jakarta.servlet.http.Part;
 import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/admin/products/*")
 //để chương trình có thể truy xuất và xử lý các yêu cầu tải lên tệp tin
@@ -25,16 +26,24 @@ public class ProductsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getPathInfo();
+        System.out.println("DEBUG Controller doGet - Action: " + action);  // Log action
+
         if("/".equals(action) || action == null) {
             ProductsBo productsBo = new ProductsBo();
+            List<Products> productsList = null;
             try {
-                req.setAttribute("productsList", productsBo.getAllProducts());
+                productsList = productsBo.getAllProducts();
+                System.out.println("DEBUG Controller - Loaded " + (productsList != null ? productsList.size() : 0) + " products from BO");  // Log size list
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                System.out.println("DEBUG Controller - SQL Error in getAllProducts: " + e.getMessage());  // Log exception
+                e.printStackTrace();
+                req.setAttribute("error", "Lỗi tải danh sách sản phẩm: " + e.getMessage());
             }
-            req.getRequestDispatcher("/jsp/admin/products/homeProducts.jsp").forward(req, resp);
+            req.setAttribute("productsList", productsList);  // Set attribute
+            req.getRequestDispatcher("/jsp/admin/products/admin-products.jsp").forward(req, resp);
         }
         else if ("/add".equals(action)) {
+            System.out.println("DEBUG Controller - Forward to add form");  // Log
             req.getRequestDispatcher("/jsp/admin/products/addProducts.jsp").forward(req, resp);
         } else if ("/edit".equals(action)) {
             int productId = Integer.parseInt(req.getParameter("id"));
@@ -48,7 +57,8 @@ public class ProductsController extends HttpServlet {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                System.out.println("DEBUG Controller - Error getProductById: " + e.getMessage());  // Log
+                e.printStackTrace();
             }
         } else {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
