@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebContextManager">
+    <option name="state">
+      <map>
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/component/CategoryFilter.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user/component" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/detailProduct/detailProduct.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user/detailProduct" />
+      </map>
+    </option>
+  </component>
+</project>

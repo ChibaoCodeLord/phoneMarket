@@ -1,7 +1,7 @@
 package com.phonemarket.model.dao;
 
 import com.phonemarket.connection.ConnectJDBC;
-import com.phonemarket.model.bean.User;
+import com.phonemarket.model.bean.Users;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class authDAO {
-    public User findByUsernameAndPassword(String username, String password) {
+    public Users findByUsernameAndPassword(String username, String password) {
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
         try (Connection conn = ConnectJDBC.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -17,7 +17,7 @@ public class authDAO {
             pstmt.setString(2, password);  // Nên so sánh hash ở BO
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                User user = new User();
+                Users user = new Users();
                 user.setId(rs.getInt("user_id"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
@@ -33,7 +33,7 @@ public class authDAO {
         }
         return null;
     }
-    public boolean register(User user) {
+    public boolean register(Users user) {
         String sql = "INSERT INTO users (username, password, email,phone_number, address, fullname) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConnectJDBC.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

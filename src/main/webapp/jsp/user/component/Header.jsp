@@ -38,7 +38,7 @@
 
         <!-- PHẢI: Giỏ hàng + Đăng nhập -->
         <div class="header-actions">
-            <a href="#" class="cart-icon">
+            <a href="/jsp/user/cart.jsp" class="cart-icon">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="badge">3</span>
             </a>
