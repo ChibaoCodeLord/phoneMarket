@@ -1,3 +1,4 @@
+<%@ page import="com.phonemarket.model.bean.Orders" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
@@ -23,35 +24,34 @@
     <!-- Stats Cards -->
     <section class="stats-grid">
       <div class="stat-card">
-        <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
         <div class="stat-info">
-          <h3>3,782</h3>
-          <p>Monthly Sales</p>
-          <span class="stat-change positive">+10.1%</span>
+          <h3><%= request.getAttribute("totalUsers") %></h3>
+          <p>Total Users</p>
         </div>
       </div>
+
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-mobile-screen-button"></i></div>
+        <div class="stat-info">
+          <h3><%= request.getAttribute("totalProducts") %></h3>
+          <p>Total Products</p>
+        </div>
+      </div>
+
       <div class="stat-card">
         <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
         <div class="stat-info">
-          <h3>5,359</h3>
-          <p>Revenue</p>
-          <span class="stat-change negative">-9.0%</span>
+          <h3><%= request.getAttribute("totalRevenue") %></h3>
+          <p>Total Revenue</p>
         </div>
       </div>
+
       <div class="stat-card">
-        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
         <div class="stat-info">
-          <h3>1,234</h3>
-          <p>New Customers</p>
-          <span class="stat-change positive">+15%</span>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon"><i class="fas fa-shopping-bag"></i></div>
-        <div class="stat-info">
-          <h3>456</h3>
-          <p>Orders</p>
-          <span class="stat-change positive">+8%</span>
+          <h3><%= request.getAttribute("totalOrders") %></h3>
+          <p>Total Orders</p>
         </div>
       </div>
     </section>
@@ -61,25 +61,30 @@
       <div class="chart-card">
         <h3>Monthly Sales</h3>
         <div class="bar-chart">
-          <!-- Giả lập data từ Servlet, dùng JSTL -->
-          <c:forEach var="month" items="${monthlySales}" varStatus="status">
-            <div class="bar" style="height: ${month.value * 2}px; background: ${status.index % 2 == 0 ? '#3b82f6' : '#10b981'}">
-              <span>${month.label}</span>
-            </div>
-          </c:forEach>
+          <%
+            java.util.List monthlySales = (java.util.List) request.getAttribute("monthlySales");
+
+            // Tìm giá trị lớn nhất để scale
+            double maxValue = 0;
+            for (Object obj : monthlySales) {
+              com.phonemarket.model.bean.MonthlySale month = (com.phonemarket.model.bean.MonthlySale) obj;
+              if (month.getValue() > maxValue) maxValue = month.getValue();
+            }
+
+            int chartMaxHeight = 200; // chiều cao tối đa của chart (px)
+
+            for (int i = 0; i < monthlySales.size(); i++) {
+              com.phonemarket.model.bean.MonthlySale month = (com.phonemarket.model.bean.MonthlySale) monthlySales.get(i);
+              String color = (i % 2 == 0) ? "#3b82f6" : "#10b981";
+              // Tính chiều cao tỷ lệ
+              int barHeight = (int) ((month.getValue() / maxValue) * chartMaxHeight);
+          %>
+          <div class="bar" style="height: <%= barHeight %>px; background: <%= color %>;">
+            <span><%= month.getLabel() %></span>
+          </div>
+          <% } %>
         </div>
-      </div>
-      <div class="chart-card">
-        <h3>Target Achievement</h3>
-        <div class="progress-circle">
-          <div class="circle" style="--progress: 75;">75%</div>
-          <p>You earned $3,782 this month, higher than last month.</p>
-        </div>
-      </div>
-      <div class="chart-card">
-        <h3>Statistics</h3>
-        <canvas id="lineChart" width="400" height="200"></canvas> <!-- Có thể dùng Chart.js nếu thêm lib -->
-        <p>Monthly Quarterly Annually</p>
+
       </div>
     </section>
 
@@ -98,15 +103,19 @@
           </tr>
           </thead>
           <tbody>
-          <c:forEach var="order" items="${recentOrders}">
-            <tr>
-              <td>${order.id}</td>
-              <td>${order.customer}</td>
-              <td>${order.product}</td>
-              <td><span class="status pending">${order.status}</span></td>
-              <td>$${order.amount}</td>
-            </tr>
-          </c:forEach>
+          <%
+            java.util.List recentOrders = (java.util.List) request.getAttribute("recentOrders");
+            for (Object obj : recentOrders) {
+              Orders order = (Orders) obj;
+          %>
+          <tr>
+            <td><%= order.getId() %></td>
+            <td><%= order.getCustomer() %></td>
+            <td><%= order.getProduct() %></td>
+            <td><span class="status pending"><%= order.getStatus() %></span></td>
+            <td>$<%= order.getAmount() %></td>
+          </tr>
+          <% } %>
           </tbody>
         </table>
       </div>

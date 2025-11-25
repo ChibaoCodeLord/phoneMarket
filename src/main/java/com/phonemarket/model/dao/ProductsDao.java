@@ -1,5 +1,6 @@
 package com.phonemarket.model.dao;
 
+import com.phonemarket.connection.ConnectJDBC;
 import com.phonemarket.model.bean.Products;
 
 import javax.sql.DataSource;
@@ -19,7 +20,8 @@ public class ProductsDao {
         } catch (ClassNotFoundException e) {
             throw new SQLException("MySQL JDBC Driver not found", e);
         }
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/phone_market_db", "root", "112233");
+//        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/phone_market_db", "root", "112233");
+          Connection conn = ConnectJDBC.getConnection();
         return conn;
     }
 
