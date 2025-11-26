@@ -3,12 +3,12 @@
     <div class="container">
         <div class="banner-grid">
          <a href="#" class="banner-item large">
-             <img src="https://placehold.co/800x400/FF6B6B/FFFFFF?text=Xiaomi+15T+Series"
+             <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:1036:450/q:90/plain/https://dashboard.cellphones.com.vn/storage/IMG_9007.png"
                   alt="Xiaomi 15T Series"
                   loading="lazy" />
          </a>
          <a href="#" class="banner-item large">
-             <img src="https://placehold.co/800x400/4ECDC4/FFFFFF?text=iPhone+Air+M%E1%BB%9Bi"
+             <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:1036:450/q:90/plain/https://dashboard.cellphones.com.vn/storage/690x300_iPhone_17_Pro_Opensale_v3.png"
                   alt="iPhone Air Mới"
                   loading="lazy" />
          </a>

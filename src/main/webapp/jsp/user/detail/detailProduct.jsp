@@ -38,7 +38,7 @@
 
     <!-- YouTube Video -->
     <div class="relative rounded-2xl overflow-hidden shadow-2xl mb-8 glass">
-        <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ?start=48&autoplay=0&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/nK9Qivs4f3s?si=8eo8FnGhm2jjccVL" title="YouTube video player" frameborder="0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <div class="absolute bottom-4 left-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded text-sm">
             Sơn Tùng M-TP | Quảng cáo iPhone Air chính thức
         </div>
