@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +24,7 @@
                 <i class="fas fa-exclamation-triangle"></i> ${error}
             </div>
         </c:if>
-        <form action="/login" method="post">
+        <form action="${pageContext.request.contextPath}/login" method="post">
             <div class="input-group">
                 <label>USERNAME</label>
                 <input type="text" name="username" placeholder="Username" required id="username">

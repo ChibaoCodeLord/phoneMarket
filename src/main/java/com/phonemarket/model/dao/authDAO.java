@@ -34,6 +34,11 @@ public class authDAO {
         return null;
     }
     public boolean register(Users user) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         String sql = "INSERT INTO users (username, password, email,phone_number, address, fullname) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConnectJDBC.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -48,6 +53,7 @@ public class authDAO {
 
 
             int rowsAffected = pstmt.executeUpdate();
+            System.out.println(user.getFullName());
             return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
