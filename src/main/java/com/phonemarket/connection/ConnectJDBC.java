@@ -8,7 +8,7 @@ public class ConnectJDBC {
 
     // Port 3307 như phpMyAdmin
     private static final String URL =
-            "jdbc:mysql://127.0.0.1:3306/phone_market_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+            "jdbc:mysql://127.0.0.1:3307/phone_market_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
 
     private static final String USER = "root";
     private static final String PASSWORD = "112233"; // trống nếu XAMPP root không có password
