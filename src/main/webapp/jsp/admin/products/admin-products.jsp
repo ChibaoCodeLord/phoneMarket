@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products Management - PhoneMarket Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/css/admin/admin-home.css">
-    <link rel="stylesheet" href="/css/admin/admin-table.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-home.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-table.css">
     <style>
         .product-img { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; }
         .no-data { text-align: center; padding: 40px; color: #64748b; }

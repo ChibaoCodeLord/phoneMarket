@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 
 import java.sql.SQLException;
 
-@WebServlet("/admin/products/")
+@WebServlet("/admin/products")
 public class phoneListServlet extends HttpServlet {
 
     @Override
