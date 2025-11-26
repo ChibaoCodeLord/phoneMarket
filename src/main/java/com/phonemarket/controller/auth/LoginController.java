@@ -26,9 +26,12 @@ public class LoginController extends HttpServlet {
         try {
             Users user = authBO.login(username, password);  // Gọi BO
             HttpSession session = req.getSession();
+            session.setAttribute("currentUser", user);  // Lưu đối tượng Users vào session
             session.setAttribute("user", user.getUsername());  // Lưu vào session
+            System.out.println("DEBUG: Logged in user ID: " + user.getUserId());
+            System.out.println("DEBUG: Logged in fullName: " + user.getFullName());
             if(user.isRole()){
-                resp.sendRedirect("/jsp/admin/products/admin-products.jsp");
+                resp.sendRedirect("/admin/products/");
             }else {
                 resp.sendRedirect(req.getContextPath() + "/products");
             }// Thành công

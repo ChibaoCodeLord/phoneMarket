@@ -1,13 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" import="com.phonemarket.model.bean.Users,java.util.List" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <title>Users Management - PhoneMarket Admin</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="/css/admin/admin-home.css">
-  <link rel="stylesheet" href="/css/admin/admin-table.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-home.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-table.css">
+
   <style>
     .no-data { text-align: center; padding: 40px; color: #64748b; }
   </style>
