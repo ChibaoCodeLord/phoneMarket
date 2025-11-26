@@ -1,5 +1,6 @@
 package com.phonemarket.model.dao;
 
+import com.phonemarket.connection.ConnectJDBC;
 import com.phonemarket.model.bean.Products;
 
 import javax.sql.DataSource;
@@ -8,19 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.phonemarket.connection.ConnectJDBC.getConnection;
+
 public class ProductsDao {
 
     public ProductsDao() {
-    }
-    //TODO: sửa lại thông tin kết nối database cho đúng
-    private Connection getConnection() throws SQLException {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new SQLException("MySQL JDBC Driver not found", e);
-        }
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/phone_market_db", "root", "112233");
-        return conn;
     }
 
     public Products findById(int id) throws SQLException {

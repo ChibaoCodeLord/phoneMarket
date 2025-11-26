@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - PhoneMarket</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/auth.css">
 </head>
 <body>
 <div class="auth-container">
@@ -23,7 +24,7 @@
                 <i class="fas fa-exclamation-triangle"></i> ${error}
             </div>
         </c:if>
-        <form action="/register" method="post" id="registerForm">
+        <form action="${pageContext.request.contextPath}/register" method="post" id="registerForm">
             <div class="input-group">
                 <label>FULL NAME</label>
                 <input type="text" name="fullName" placeholder="Full Name" required id="fullName">

@@ -1,8 +1,6 @@
-package com.phonemarket.controller.admin.users;
+package com.phonemarket.controller.admin;
 
-import com.phonemarket.model.bean.Products;
 import com.phonemarket.model.bean.Users;
-import com.phonemarket.model.bo.ProductsBo;
 import com.phonemarket.model.bo.UsersBO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
