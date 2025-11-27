@@ -1,6 +1,7 @@
 package com.phonemarket.model.dao;
 
 import com.phonemarket.connection.ConnectJDBC;
+import com.phonemarket.model.bean.OrderDetailItem;
 import com.phonemarket.model.bean.Orders;
 
 import java.sql.Connection;
@@ -134,21 +135,36 @@ public class OrdersDAO {
         return null;
     }
 
-    /** Soft delete — đổi status */
     public boolean deleteOrder(int id) throws SQLException {
-        String sql = """
-            UPDATE orders 
-            SET status = 'Cancelled' 
-            WHERE order_id = ? AND status != 'Completed'
-        """;
-
+        // 1️⃣ Kiểm tra trạng thái đơn hàng trước
+        String selectSql = "SELECT status FROM orders WHERE order_id = ?";
         try (Connection c = getConn();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+             PreparedStatement ps = c.prepareStatement(selectSql)) {
 
             ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    System.out.println("Order found with status: " + rs.getString("status"));
+                } else {
+                    System.out.println("No order found with id = " + id);
+                    return false; // Không có order → không xóa
+                }
+            }
+        }
+
+        // 2️⃣ Cập nhật trạng thái đơn hàng thành 'Cancelled'
+        String updateSql = "UPDATE orders SET status = 'Cancelled' WHERE order_id = ?";
+        try (Connection c = getConn();
+             PreparedStatement ps = c.prepareStatement(updateSql)) {
+
+            ps.setInt(1, id);
+            int updated = ps.executeUpdate();
+            System.out.println("Rows updated: " + updated);
+            return updated > 0;
         }
     }
+
+
 
     /** Hard delete — xóa thật */
     public boolean hardDeleteOrder(int id) throws SQLException {
@@ -173,4 +189,39 @@ public class OrdersDAO {
             return ps.executeUpdate() > 0;
         }
     }
+    /** Lấy danh sách order_detail theo order_id */
+    public List<OrderDetailItem> getOrderDetailsByOrderId(int orderId) throws SQLException {
+
+        String sql = """
+        SELECT od.order_detail_id, od.product_id, od.quantity, od.price_at_purchase,
+               p.name AS product_name,
+               p.image_url AS product_image
+        FROM order_details od
+        JOIN products p ON od.product_id = p.product_id
+        WHERE od.order_id = ?
+        ORDER BY od.order_detail_id ASC
+    """;
+
+        List<OrderDetailItem> list = new ArrayList<>();
+
+        try (Connection c = getConn();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new OrderDetailItem(
+                        rs.getInt("order_detail_id"),
+                        rs.getInt("product_id"),
+                        rs.getInt("quantity"),
+                        rs.getDouble("price_at_purchase"),
+                        rs.getString("product_name"),
+                        rs.getString("product_image")
+                ));
+            }
+        }
+        return list;
+    }
+
 }

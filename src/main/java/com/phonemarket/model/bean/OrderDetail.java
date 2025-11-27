@@ -5,7 +5,8 @@ public class OrderDetail {
     private int orderId;  // order_id
     private int productId;  // product_id
     private int quantity;  // quantity
-    private double priceAtPurchase;  // price_at_purchase (decimal10,2)
+    private double priceAtPurchase;
+    // price_at_purchase (decimal10,2)
 
     // Default constructor
     public OrderDetail() {}

@@ -7,8 +7,8 @@
   <meta charset="UTF-8">
   <title>Users Management - PhoneMarket Admin</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-home.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-table.css">
+  <link rel="stylesheet" href="/css/admin/home.css">
+  <link rel="stylesheet" href="/css/admin/admin-table.css">
 
   <style>
     .no-data { text-align: center; padding: 40px; color: #64748b; }
@@ -31,9 +31,7 @@
         <span>/</span><span>Users</span>
       </nav>
 
-      <button class="btn-new-product" onclick="window.location.href='/admin/customer/add'">
-        <i class="fas fa-plus"></i> New User
-      </button>
+
     </div>
 
     <!-- Search -->

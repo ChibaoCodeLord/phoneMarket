@@ -1,5 +1,6 @@
 package com.phonemarket.model.bo;
 
+import com.phonemarket.model.bean.OrderDetailItem;
 import com.phonemarket.model.bean.Orders;
 import com.phonemarket.model.dao.OrdersDAO;
 
@@ -24,9 +25,14 @@ public class OrdersBO {
         return ordersDao.findById(id);
     }
 
-    /** Lấy đầy đủ detail của đơn hàng */
+    /** Lấy đầy đủ detail (thông tin khách + product_names + images + tổng) */
     public Orders getOrderDetails(int id) throws SQLException {
         return ordersDao.getOrderWithDetails(id);
+    }
+
+    /** Lấy danh sách sản phẩm trong đơn hàng */
+    public List<OrderDetailItem> getOrderDetailItems(int orderId) throws SQLException {
+        return ordersDao.getOrderDetailsByOrderId(orderId);
     }
 
     /** Soft delete (hủy đơn) */
