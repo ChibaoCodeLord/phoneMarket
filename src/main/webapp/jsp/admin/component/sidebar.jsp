@@ -8,7 +8,7 @@
   </div>
   <nav class="sidebar-nav">
     <ul>
-      <li><a href="${pageContext.request.contextPath}/admin/home" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+      <li><a href="${pageContext.request.contextPath}/admin/statistics" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
       <li><a href="${pageContext.request.contextPath}/admin/products"><i class="fas fa-box"></i> Quản lý Sản phẩm</a></li>
       <li><a href="${pageContext.request.contextPath}/admin/orders"><i class="fas fa-shopping-cart"></i> Quản lý Đơn hàng</a></li>
       <li><a href="${pageContext.request.contextPath}/admin/users/"><i class="fas fa-users"></i> Quản lý Khách hàng</a></li>
@@ -17,4 +17,4 @@
     </ul>
   </nav>
 </aside>
-<script src="/js/component/sidebar.js"></script>
+<script src="${pageContext.request.contextPath}/js/component/sidebar.js"></script>

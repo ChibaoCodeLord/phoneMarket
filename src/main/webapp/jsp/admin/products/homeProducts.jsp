@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" isELIgnored="false" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" import="com.phonemarket.model.bean.Users" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -10,7 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-home.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-table.css">
-  <link rel="script" src="js/component/sidebar.js"></script>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-product.css">
 
   <style>
     .data-table { width: 100%; border-collapse: collapse; box-shadow: 0 0 10px rgba(0,0,0,0.1); background-color: white; border-radius: 8px; margin-top: 20px; }
@@ -21,18 +22,35 @@
     .actions a:last-child { color: #dc3545; }
     .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .btn-add { background-color: #28a745; color: white; padding: 8px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+  .inactive {
+    opacity: 0.5;
+    filter: grayscale(60%);
+    transition: opacity 0.2s ease, filter 0.2s ease;
+  }
+  .inactive img {
+    opacity: 0.9;
+  }
   </style>
 </head>
 <body>
 <div class="admin-wrapper">
     <%@ include file="../component/sidebar.jsp" %>
   <main class="main-content">
-    <c:if test="${not empty success}">
-      <div class="alert alert-success">${success}</div>
-    </c:if>
 
+    <!-- Notifications -->
+    <c:if test="${not empty success}">
+        <div class="alert alert-success">
+            <span class="alert-icon">✓</span>
+            <span>${success}</span>
+            <button class="alert-close" onclick="this.parentElement.remove()">×</button>
+        </div>
+    </c:if>
     <c:if test="${not empty error}">
-      <div class="alert alert-danger">${error}</div>
+        <div class="alert alert-error">
+            <span class="alert-icon">✗</span>
+            <span>${error}</span>
+            <button class="alert-close" onclick="this.parentElement.remove()">×</button>
+        </div>
     </c:if>
 
     <header class="header">
@@ -58,7 +76,7 @@
       <c:if test="${not empty list}">
         <table class="data-table">
           <thead>
-            <tr>
+            <tr >
               <th>ID</th>
               <th>Name</th>
               <th>Price</th>
@@ -69,7 +87,7 @@
           </thead>
           <tbody>
             <c:forEach var="p" items="${list}">
-              <tr>
+              <tr class="${p.is_active() ? '' : 'inactive'}">
                 <td>${p.id}</td>
                 <td>${p.name}</td>
                 <td>${p.price}</td>

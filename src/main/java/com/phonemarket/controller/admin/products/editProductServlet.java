@@ -49,6 +49,7 @@ public class editProductServlet extends HttpServlet {
         int price = Integer.parseInt(req.getParameter("price"));
         String description = req.getParameter("description");
         int stockQuantity = Integer.parseInt(req.getParameter("stock_quantity"));
+        boolean is_active = req.getParameter("is_active") != null;
 
         ProductsBo productsBo = new ProductsBo();
         try {
@@ -69,13 +70,13 @@ public class editProductServlet extends HttpServlet {
                 imageDbPath = "/assets/images/products/" + imageFileName;
                 imagePart.write(uploadPath + imageFileName);
             }
-            Products updatedProduct = new Products(id, name, price, description, imageDbPath, stockQuantity);
+            Products updatedProduct = new Products(id, name, price, description, imageDbPath, stockQuantity,is_active);
             boolean isUpdated = productsBo.updateProduct(updatedProduct);
             if (isUpdated) {
                 req.getSession().setAttribute("success", "Cập nhật sản phẩm thành công.");
-                resp.sendRedirect(req.getContextPath() + "/admin/products/");
+                resp.sendRedirect(req.getContextPath() + "/admin/products");
             } else {
-                req.setAttribute("error", "Cập nhật sản phẩm thất bại.");
+                req.getSession().setAttribute("error", "Cập nhật sản phẩm thất bại.");
                 req.getRequestDispatcher("/jsp/admin/products/updateProduct.jsp").forward(req, resp);
             }
         } catch (SQLException e) {

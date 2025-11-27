@@ -17,7 +17,7 @@ public class ProductsDao {
     }
 
     public Products findById(int id) throws SQLException {
-        String sql = "SELECT product_id, name, description, price, image_url, stock_quantity FROM products WHERE product_id = ?";
+        String sql = "SELECT * FROM products WHERE product_id = ?";
         try (Connection c = getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -30,7 +30,7 @@ public class ProductsDao {
 
     public List<Products> findByName(String name) throws SQLException {
         List<Products> list = new ArrayList<>();
-        String sql = "SELECT product_id, name, description, price, image_url, stock_quantity FROM products WHERE name LIKE ?";
+        String sql = "SELECT * FROM products WHERE name LIKE ?";
         try (Connection c = getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
             String pattern = "%" + (name == null ? "" : name.trim()) + "%";
@@ -45,7 +45,7 @@ public class ProductsDao {
     }
 
     public List<Products> findAll() throws SQLException {
-        String sql = "SELECT product_id, name, description, price, image_url, stock_quantity  FROM products";
+        String sql = "SELECT *  FROM products";
         List<Products> list = new ArrayList<>();
         try (Connection c = getConnection();
              PreparedStatement ps = c.prepareStatement(sql);
@@ -56,24 +56,26 @@ public class ProductsDao {
     }
 
     public boolean insert(Products p) throws SQLException {
-        String sql = "INSERT INTO products (name, price, description, image_url, stock_quantity) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO products (name, price, description, image_url, stock_quantity, is_active) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection c = getConnection();
              PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(2, p.getPrice());
-            ps.setString(3, p.getDescription());
-            ps.setString(4, p.getImage());
-            ps.setInt(5, p.getStock_quantity());
-            int affected = ps.executeUpdate();
-            if (affected == 0) return false;
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                if (keys.next()) return true;
-            }
+                ps.setInt(2, p.getPrice());
+                ps.setString(3, p.getDescription());
+                ps.setString(4, p.getImage());
+                ps.setInt(5, p.getStock_quantity());
+                ps.setBoolean(6, p.is_active());
+                ps.setString(1, p.getName());
+                int affected = ps.executeUpdate();
+                if (affected == 0) return false;
+                try (ResultSet keys = ps.getGeneratedKeys()) {
+                    if (keys.next()) return true;
+                }
         }
         return false;
     }
 
     public boolean update(Products p) throws SQLException {
-        String sql = "UPDATE products SET name = ?, description = ?, price = ?, image_url = ?, stock_quantity = ?  WHERE product_id = ?";
+        String sql = "UPDATE products SET name = ?, description = ?, price = ?, image_url = ?, stock_quantity = ?, is_active = ?  WHERE product_id = ?";
         try (Connection c = getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, p.getName());
@@ -81,7 +83,8 @@ public class ProductsDao {
             ps.setInt(3, p.getPrice());
             ps.setString(4, p.getImage());
             ps.setInt(5, p.getStock_quantity());
-            ps.setInt(6, p.getId());
+            ps.setBoolean(6, p.is_active());
+            ps.setInt(7, p.getId());
             return ps.executeUpdate() > 0;
         }
     }
@@ -107,7 +110,7 @@ public class ProductsDao {
     }
 
     public List<Products> searchProductsByName(String keyword) throws SQLException {
-        String sql = "SELECT id, name, description, price FROM products WHERE name LIKE ?";
+        String sql = "SELECT * FROM products WHERE name LIKE ?";
         List<Products> list = new ArrayList<>();
         try (Connection c = getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
@@ -127,7 +130,8 @@ public class ProductsDao {
                 rs.getInt("price"),
                 rs.getString("description"),
                 rs.getString("image_url"),
-                rs.getInt("stock_quantity")
+                rs.getInt("stock_quantity"),
+                rs.getBoolean("is_active")
         );
     }
 }

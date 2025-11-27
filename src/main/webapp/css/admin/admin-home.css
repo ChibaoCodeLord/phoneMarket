@@ -345,3 +345,11 @@ body{font-family: "Segoe UI", Roboto, Arial, sans-serif; margin:0; background:#f
     color: #333;
     margin-bottom: 4px;
 }
+
+
+/* Alerts cho thanh notification*/
+        .alert { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; }
+        .alert-success { background: #d1fae5; color: #065f46; border: 1px solid #10b981; }
+        .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #ef4444; }
+        .alert-icon { font-weight: bold; font-size: 1.25rem; }
+        .alert-close { margin-left: auto; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: inherit; }
