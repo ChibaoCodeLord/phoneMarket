@@ -44,4 +44,8 @@ public class OrdersBO {
     public boolean hardDeleteOrder(int id) throws SQLException {
         return ordersDao.hardDeleteOrder(id);
     }
+    public boolean updateOrder(Orders order) throws SQLException {
+        return ordersDao.updateOrder(order);
+    }
+
 }

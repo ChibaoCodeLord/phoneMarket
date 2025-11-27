@@ -22,128 +22,96 @@ public class OrdersController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String action = req.getPathInfo(); // "/", "/view", "/delete", ...
+        String action = req.getPathInfo();
         if (action == null) action = "/";
 
         try {
+            switch(action) {
+                case "/":
+                    List<Orders> orders = ordersBO.getAllOrders();
+                    req.setAttribute("ordersList", orders);
+                    req.getRequestDispatcher("/jsp/admin/orders/list_orders.jsp")
+                            .forward(req, resp);
+                    break;
 
+                case "/view":
+                    int viewId = Integer.parseInt(req.getParameter("id"));
+                    Orders order = ordersBO.getOrderDetails(viewId);
+                    List<OrderDetailItem> items = ordersBO.getOrderDetailItems(viewId);
+                    req.setAttribute("order", order);
+                    req.setAttribute("orderItems", items);
+                    req.getRequestDispatcher("/jsp/admin/orders/order_detail.jsp")
+                            .forward(req, resp);
+                    break;
 
-            if ("/".equals(action)) {
-                List<Orders> orders = ordersBO.getAllOrders();
-                req.setAttribute("ordersList", orders);
-                req.getRequestDispatcher("/jsp/admin/orders/list_orders.jsp")
-                        .forward(req, resp);
-                return;
-            }
+                case "/delete":
+                    int deleteId = Integer.parseInt(req.getParameter("id"));
+                    boolean canceled = ordersBO.cancelOrder(deleteId);
+                    resp.sendRedirect(req.getContextPath() + "/admin/orders/");
+                    break;
 
-
-            if ("/view".equals(action)) {
-                int id = Integer.parseInt(req.getParameter("id"));
-
-                Orders order = ordersBO.getOrderDetails(id);
-                List<OrderDetailItem> items = ordersBO.getOrderDetailItems(id);
-
-                // 🟦 DEBUG: IN ORDER
-                System.out.println("===== DEBUG ORDER =====");
-                System.out.println("Order ID: " + order.getOrderId());
-                System.out.println("Customer: " + order.getCustomerName());
-                System.out.println("Total: " + order.getTotalAmount());
-                System.out.println("Status: " + order.getStatus());
-                System.out.println("=======================");
-
-                // 🟩 DEBUG: IN DANH SÁCH CHI TIẾT
-                System.out.println("===== DEBUG ORDER ITEMS =====");
-                if (items == null) {
-                    System.out.println("items = NULL");
-                } else if (items.isEmpty()) {
-                    System.out.println("items = EMPTY");
-                } else {
-                    for (OrderDetailItem item : items) {
-                        System.out.println(
-                                "Product: " + item.getProductName() +
-                                        " | Qty: " + item.getQuantity() +
-                                        " | Price: " + item.getPriceAtPurchase() +
-                                        " | Image: " + item.getProductImage()
-                        );
-                    }
-                }
-                System.out.println("============================");
-
-                req.setAttribute("order", order);
-                req.setAttribute("orderItems", items);
-
-                req.getRequestDispatcher("/jsp/admin/orders/order_detail.jsp")
-                        .forward(req, resp);
-                return;
-            }
-
-
-
-            if ("/delete".equals(action)) {
-                String idStr = req.getParameter("id");
-                System.out.println("ID param: " + idStr);
-
-                if (idStr != null) {
-                    try {
-                        int id = Integer.parseInt(idStr);
-
-                        if (ordersBO != null) {
-                            boolean success = ordersBO.cancelOrder(id);
-                            System.out.println("Cancel order result: " + success);
-                        } else {
-                            System.out.println("Error: ordersBO is null!");
-                        }
-
-                    } catch (NumberFormatException e) {
-                        System.out.println("Error: ID is not a valid number - " + idStr);
-                    }
-                } else {
-                    System.out.println("Error: ID parameter is missing!");
-                }
-
-                // Redirect về trang danh sách đơn hàng
-                String redirectUrl = req.getContextPath() + "/admin/orders/";
-                System.out.println("Redirecting to: " + redirectUrl);
-                resp.sendRedirect(redirectUrl);
-                return;
-            }
-
-            if ("/hardDelete".equals(action)) {
-                String idsParam = req.getParameter("ids"); // ví dụ: "1,2,3"
-                if (idsParam != null && !idsParam.isEmpty()) {
-                    String[] idArray = idsParam.split(",");
-                    for (String idStr : idArray) {
-                        try {
-                            int id = Integer.parseInt(idStr.trim());
-                            ordersBO.hardDeleteOrder(id); // Xóa cứng trong DB
-                        } catch (NumberFormatException e) {
-                            System.out.println("Invalid order ID: " + idStr);
-                        } catch (SQLException e) {
-                            System.out.println("Error deleting order ID: " + idStr);
-                            e.printStackTrace();
+                case "/hardDelete":
+                    String idsParam = req.getParameter("ids");
+                    if (idsParam != null && !idsParam.isEmpty()) {
+                        for (String s : idsParam.split(",")) {
+                            int id = Integer.parseInt(s.trim());
+                            ordersBO.hardDeleteOrder(id);
                         }
                     }
-                }
-                resp.sendRedirect(req.getContextPath() + "/admin/orders/");
+                    resp.sendRedirect(req.getContextPath() + "/admin/orders/");
+                    break;
+
+                default:
+                    // Forward tới trang lỗi thay vì sendError
+                    req.setAttribute("errorMessage", "Action không hợp lệ: " + action);
+                    req.getRequestDispatcher("/jsp/admin/error.jsp").forward(req, resp);
             }
-
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Action không hợp lệ");
-
-        }
-
-
-
-
-
-
-        catch (SQLException e) {
-            req.setAttribute("error", "Database error: " + e.getMessage());
-            req.getRequestDispatcher("/jsp/admin/orders/list_orders.jsp")
-                    .forward(req, resp);
+        } catch (SQLException e) {
+            req.setAttribute("errorMessage", "Database error: " + e.getMessage());
+            req.getRequestDispatcher("/jsp/admin/error.jsp").forward(req, resp);
             e.printStackTrace();
-
         } catch (NumberFormatException e) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID không hợp lệ");
+            req.setAttribute("errorMessage", "ID không hợp lệ");
+            req.getRequestDispatcher("/jsp/admin/error.jsp").forward(req, resp);
         }
     }
+
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        String action = req.getPathInfo();
+        if (action == null) action = "/";
+
+        try {
+            if ("/edit".equals(action)) {
+                int orderId = Integer.parseInt(req.getParameter("orderId"));
+                int userId = Integer.parseInt(req.getParameter("userId"));
+                java.util.Date orderDate = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm")
+                        .parse(req.getParameter("orderDate"));
+                double totalAmount = Double.parseDouble(req.getParameter("totalAmount"));
+                String shippingAddress = req.getParameter("shippingAddress");
+                String status = req.getParameter("status");
+
+                Orders order = new Orders(orderId, userId, orderDate, totalAmount, shippingAddress, status);
+
+                boolean success = ordersBO.updateOrder(order);
+                if (success) {
+                    resp.sendRedirect(req.getContextPath() + "/admin/orders/");
+                } else {
+                    req.setAttribute("errorMessage", "Cập nhật đơn hàng thất bại!");
+                    req.getRequestDispatcher("/jsp/admin/orders/edit_order.jsp")
+                            .forward(req, resp);
+                }
+                return;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            req.setAttribute("errorMessage", e.getMessage());
+            req.getRequestDispatcher("/jsp/admin/error.jsp").forward(req, resp);
+        }
+    }
+
 }

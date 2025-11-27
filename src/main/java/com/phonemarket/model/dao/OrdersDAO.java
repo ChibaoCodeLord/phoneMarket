@@ -39,7 +39,7 @@ public class OrdersDAO {
         String sql = """
             SELECT o.order_id, o.user_id, o.order_date, o.total_amount, 
                    o.shipping_address, o.status,
-                   u.full_name AS customer_name,
+                   u.fullname AS customer_name,
                    GROUP_CONCAT(p.name SEPARATOR ', ') AS product_names
             FROM orders o
             JOIN users u ON o.user_id = u.user_id
@@ -65,7 +65,7 @@ public class OrdersDAO {
         String sql = """
             SELECT o.order_id, o.user_id, o.order_date, o.total_amount,
                    o.shipping_address, o.status,
-                   u.full_name AS customer_name,
+                   u.fullname AS customer_name,
                    GROUP_CONCAT(p.name SEPARATOR ', ') AS product_names
             FROM orders o
             JOIN users u ON o.user_id = u.user_id
@@ -92,7 +92,7 @@ public class OrdersDAO {
         String sql = """
             SELECT o.order_id, o.user_id, o.order_date, o.total_amount,
                    o.shipping_address, o.status,
-                   u.full_name AS customer_name,
+                   u.fullname AS customer_name,
                    u.email AS customer_email,
                    u.phone_number AS customer_phone,
                    GROUP_CONCAT(p.name SEPARATOR ', ') AS product_names,
@@ -222,6 +222,33 @@ public class OrdersDAO {
             }
         }
         return list;
+    }
+    /** Cập nhật thông tin đơn hàng */
+    public boolean updateOrder(Orders order) throws SQLException {
+        String sql = """
+        UPDATE orders 
+        SET user_id = ?, 
+            order_date = ?, 
+            total_amount = ?, 
+            shipping_address = ?, 
+            status = ?
+        WHERE order_id = ?
+    """;
+
+        try (Connection c = getConn();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setInt(1, order.getUserId());
+            ps.setTimestamp(2, new java.sql.Timestamp(order.getOrderDate().getTime()));
+            ps.setDouble(3, order.getTotalAmount());
+            ps.setString(4, order.getShippingAddress());
+            ps.setString(5, order.getStatus());
+            ps.setInt(6, order.getOrderId());
+
+            int updated = ps.executeUpdate();
+            System.out.println("OrdersDAO.updateOrder - rows updated: " + updated);
+            return updated > 0;
+        }
     }
 
 }

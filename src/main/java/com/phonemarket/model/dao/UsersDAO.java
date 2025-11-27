@@ -55,7 +55,7 @@ public class UsersDAO {
         u.setUsername(rs.getString("username"));
         u.setPassword(rs.getString("password"));   // DB: password_hash
         u.setEmail(rs.getString("email"));
-        u.setFullName(rs.getString("full_name"));
+        u.setFullName(rs.getString("fullname"));
         u.setPhone(rs.getString("phone_number"));
         u.setAddress(rs.getString("address"));
         u.setRole(rs.getBoolean("role"));               // TINYINT → boolean
