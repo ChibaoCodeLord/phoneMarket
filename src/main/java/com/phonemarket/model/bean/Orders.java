@@ -1,24 +1,30 @@
 package com.phonemarket.model.bean;
 
-import java.util.Date;  // Cho order_date TIMESTAMP
+import java.util.Date;
 
 public class Orders {
-    private int orderId;  // order_id INT(11)
-    private int userId;  // user_id INT(11)
-    private Date orderDate;  // order_date TIMESTAMP
-    private double totalAmount;  // total_amount DECIMAL(10,2)
-    private String shippingAddress;  // shipping_address TEXT
-    private String status;  // status ENUM('Pending', 'Processing', 'Shipped', 'Completed', 'Cancelled')
 
-    // THÊM: Fields cho JOIN data
-    private String customerName;  // full_name từ users
-    private String productNames;  // concat names từ products
-    private String productImages;  // concat image_url từ products (comma-separated)
+    // CORE FIELDS (từ bảng orders)
+    private int orderId;
+    private int userId;
+    private Date orderDate;
+    private double totalAmount;
+    private String shippingAddress;
+    private String status;
+
+    // JOIN FIELDS (từ users, products, order_details)
+    private String customerName;   // full_name từ users
+    private String customerEmail;  // email từ users
+    private String customerPhone;  // phone_number từ users
+
+    private String productNames;   // tên sản phẩm (GROUP_CONCAT)
+    private String productImages;  // ảnh sản phẩm (GROUP_CONCAT)
+    private String detailItems;    // quantity x price (GROUP_CONCAT)
 
     // Default constructor
     public Orders() {}
 
-    // Full constructor (core fields)
+    // Core constructor
     public Orders(int orderId, int userId, Date orderDate, double totalAmount, String shippingAddress, String status) {
         this.orderId = orderId;
         this.userId = userId;
@@ -28,7 +34,7 @@ public class Orders {
         this.status = status;
     }
 
-    // Getters & Setters core
+    // --- GETTERS & SETTERS (CORE) ---
     public int getOrderId() { return orderId; }
     public void setOrderId(int orderId) { this.orderId = orderId; }
 
@@ -47,13 +53,24 @@ public class Orders {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    // THÊM: Getters/Setters cho JOIN data
+    // --- JOIN: CUSTOMER INFO ---
     public String getCustomerName() { return customerName; }
     public void setCustomerName(String customerName) { this.customerName = customerName; }
 
+    public String getCustomerEmail() { return customerEmail; }
+    public void setCustomerEmail(String customerEmail) { this.customerEmail = customerEmail; }
+
+    public String getCustomerPhone() { return customerPhone; }
+    public void setCustomerPhone(String customerPhone) { this.customerPhone = customerPhone; }
+
+    // --- JOIN: PRODUCTS ---
     public String getProductNames() { return productNames; }
     public void setProductNames(String productNames) { this.productNames = productNames; }
 
     public String getProductImages() { return productImages; }
     public void setProductImages(String productImages) { this.productImages = productImages; }
+
+    // --- JOIN: ORDER DETAIL ITEMS ---
+    public String getDetailItems() { return detailItems; }
+    public void setDetailItems(String detailItems) { this.detailItems = detailItems; }
 }

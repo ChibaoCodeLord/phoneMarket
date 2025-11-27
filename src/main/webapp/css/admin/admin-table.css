@@ -293,3 +293,69 @@ tbody tr:nth-child(even) {
         font-size: 12px;
     }
 }
+/* CSS cho action-buttons - Modern colors & hover effects */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.action-buttons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;  /* Gray default */
+}
+
+/* View icon - Blue */
+.action-buttons a[href*="view"] {
+    color: #3b82f6;  /* Blue */
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.action-buttons a[href*="view"]:hover {
+    color: #1d4ed8;  /* Darker blue */
+    background: rgba(59, 130, 246, 0.2);
+    transform: scale(1.1);
+}
+
+/* Edit icon - Green */
+.action-buttons a[href*="edit"] {
+    color: #10b981;  /* Green */
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.action-buttons a[href*="edit"]:hover {
+    color: #059669;  /* Darker green */
+    background: rgba(16, 185, 129, 0.2);
+    transform: scale(1.1);
+}
+
+/* Delete icon - Red */
+.action-buttons a[href*="delete"] {
+    color: #ef4444;  /* Red */
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.action-buttons a[href*="delete"]:hover {
+    color: #dc2626;  /* Darker red */
+    background: rgba(239, 68, 68, 0.2);
+    transform: scale(1.1);
+}
+
+/* Responsive - Smaller icons on mobile */
+@media (max-width: 768px) {
+    .action-buttons a {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+}
