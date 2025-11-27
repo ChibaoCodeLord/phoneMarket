@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Profile - Phone Market</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css">
-      <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-home.css">
+      <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/home.css">
       <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-table.css">
       <link rel="script" src="js/component/sidebar.js"></script>
 </head>
