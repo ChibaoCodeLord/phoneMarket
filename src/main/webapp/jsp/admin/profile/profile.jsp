@@ -7,15 +7,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Profile - Phone Market</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css">
-      <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/home.css">
+      <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-home.css">
       <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-table.css">
       <link rel="script" src="js/component/sidebar.js"></script>
 </head>
 <body>
     <div class="admin-wrapper">
         <%@ include file="../component/sidebar.jsp" %>
-
 
         <!-- Main Content -->
         <main class="main-content">
@@ -109,15 +107,6 @@
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8fafc; }
 
         .admin-wrapper { display: flex; min-height: 100vh; }
-
-        /* Sidebar */
-        .sidebar { width: 260px; background: #1e293b; color: #fff; padding: 1.5rem; }
-        .logo h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
-        .logo span { font-size: 0.875rem; color: #94a3b8; }
-        .nav-menu { margin-top: 2rem; }
-        .nav-item { display: flex; align-items: center; padding: 0.75rem 1rem; color: #cbd5e1; text-decoration: none; border-radius: 8px; margin-bottom: 0.5rem; transition: all 0.2s; }
-        .nav-item:hover, .nav-item.active { background: #334155; color: #fff; }
-
         /* Main Content */
         .main-content { flex: 1; padding: 2rem; }
 
@@ -126,13 +115,6 @@
         .header h2 { font-size: 1.75rem; color: #0f172a; }
         .admin-info { display: flex; align-items: center; gap: 1rem; }
         .btn-logout { padding: 0.5rem 1rem; background: #ef4444; color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.875rem; }
-
-        /* Alerts */
-        .alert { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; }
-        .alert-success { background: #d1fae5; color: #065f46; border: 1px solid #10b981; }
-        .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #ef4444; }
-        .alert-icon { font-weight: bold; font-size: 1.25rem; }
-        .alert-close { margin-left: auto; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: inherit; }
 
         /* Profile Card */
         .admin-account-detail { max-width: 800px; margin: 0 auto; }

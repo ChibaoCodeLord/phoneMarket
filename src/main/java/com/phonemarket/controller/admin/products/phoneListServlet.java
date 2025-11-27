@@ -1,10 +1,12 @@
 package com.phonemarket.controller.admin.products;
 
+import com.phonemarket.model.bean.Products;
 import com.phonemarket.model.bo.ProductsBo;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/admin/products")
 public class phoneListServlet extends HttpServlet {
@@ -14,7 +16,9 @@ public class phoneListServlet extends HttpServlet {
         String action = req.getPathInfo();
             ProductsBo productsBo = new ProductsBo();
             try {
-                req.setAttribute("productsList", productsBo.getAllProducts());
+                List<Products> list = productsBo.getAllProducts();
+                System.out.println(list.get(0).is_active());
+                req.setAttribute("productsList", list);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

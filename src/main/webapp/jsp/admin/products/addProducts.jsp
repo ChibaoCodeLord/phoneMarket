@@ -8,25 +8,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add Product - PhoneMarket Admin</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/home.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-table.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-home.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-table.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/admin-product.css">
 
 </head>
 <body>
 <div class="admin-wrapper">
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <h2><i class="fas fa-mobile-alt"></i> PhoneMarket Admin</h2>
-    </div>
-    <nav class="sidebar-nav">
-      <ul>
-        <li><a href="${pageContext.request.contextPath}/admin/home.jsp"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-        <li><a href="${pageContext.request.contextPath}/admin/products/"><i class="fas fa-list"></i> Products List</a></li>
-        <li><a href="${pageContext.request.contextPath}/admin/products/add" class="active"><i class="fas fa-box"></i> Add Product</a></li>
-      </ul>
-    </nav>
-  </aside>
+  <%@ include file="../component/sidebar.jsp" %>
   <main class="main-content">
+
+    <!-- Notifications -->
+    <c:if test="${not empty success}">
+        <div class="alert alert-success">
+            <span class="alert-icon">✓</span>
+            <span>${success}</span>
+            <button class="alert-close" onclick="this.parentElement.remove()">×</button>
+        </div>
+    </c:if>
+    <c:if test="${not empty error}">
+        <div class="alert alert-error">
+            <span class="alert-icon">✗</span>
+            <span>${error}</span>
+            <button class="alert-close" onclick="this.parentElement.remove()">×</button>
+        </div>
+    </c:if>
+
     <header class="header">
       <h1>Add New Product</h1>
       <p>Fill in the product details to insert into the catalog.</p>
@@ -59,6 +66,17 @@
             <label for="imageURL">Image file</label>
             <input type="file" id="imageURL" name="imageUrl" value="${param.imageUrl}">
           </div>
+
+          <div class="form-group">
+            <label>Product Status</label>
+            <div class="toggle-group">
+              <label class="toggle-switch">
+                <input type="checkbox" id="is_active" name="is_active" checked>
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="toggle-label" id="statusLabel">Active</span>
+            </div>
+          </div>
         </div>
 
         <div class="form-actions">
@@ -69,5 +87,15 @@
     </section>
   </main>
 </div>
+
+<script>
+  const toggleInput = document.getElementById('is_active');
+  const statusLabel = document.getElementById('statusLabel');
+
+  toggleInput.addEventListener('change', function() {
+    statusLabel.textContent = this.checked ? 'Active' : 'Inactive';
+  });
+</script>
+
 </body>
 </html>

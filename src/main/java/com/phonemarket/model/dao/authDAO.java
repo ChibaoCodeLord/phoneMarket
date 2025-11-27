@@ -22,7 +22,7 @@ public class authDAO {
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
-                user.setFullName(rs.getString("fullname"));
+                user.setFullName(rs.getString("full_name"));
                 user.setPhone(rs.getString("phone_number"));
                 user.setAddress(rs.getString("address"));
                 user.setRole(rs.getBoolean("role"));

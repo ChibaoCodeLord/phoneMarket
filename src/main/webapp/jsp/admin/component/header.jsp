@@ -22,4 +22,4 @@
         </div>
     </div>
 </header>
-<script src="/js/admin/dropdown.js"></script>
+<script src="${pageContext.request.contextPath}/js/admin/dropdown.js"></script>

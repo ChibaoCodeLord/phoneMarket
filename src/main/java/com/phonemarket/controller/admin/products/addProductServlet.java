@@ -31,14 +31,19 @@ public class addProductServlet extends HttpServlet {
         int price = Integer.parseInt(req.getParameter("price"));
         String description = req.getParameter("description");
         int stock_quantity = Integer.parseInt(req.getParameter("stock_quantity"));
-
+        boolean is_active = req.getParameter("is_active") != null;
         // Xử lý tải lên hình ảnh
         //1. Lấy phần tệp tin từ yêu cầu
         Part imagePart = req.getPart("imageUrl");
+        if(imagePart == null || imagePart.getSize() == 0) {
+            req.getSession().setAttribute("error", "Vui lòng chọn hình ảnh sản phẩm.");
+            req.getRequestDispatcher("/jsp/admin/products/addProducts.jsp").forward(req, resp);
+            return;
+        }
         //2. Lấy tên tệp tin
         String imageFileName = imagePart.getSubmittedFileName();
         //3. Xác định đường dẫn lưu trữ tệp tin trên server
-        // Tạo đường dẫn đến thư mục bạn muốn lưu (giống trong hình: /assets/images/products)
+        // Tạo đường dẫn đến thư mục bạn muốn lưu
         String uploadPath = getServletContext().getRealPath("") + "assets/images/products/";
         //4. Tạo thư mục nếu chưa tồn tại
         java.io.File uploadDir = new java.io.File(uploadPath);
@@ -46,7 +51,7 @@ public class addProductServlet extends HttpServlet {
             uploadDir.mkdirs();
         }
         String imageDbPath = "/assets/images/products/" + imageFileName;
-        Products newProduct = new Products(0, name, price, description, imageDbPath, stock_quantity);
+        Products newProduct = new Products(0, name, price, description, imageDbPath, stock_quantity,is_active);
         ProductsBo productsBo = new ProductsBo();
         boolean isAdded = false;
         try {
@@ -57,12 +62,12 @@ public class addProductServlet extends HttpServlet {
         if (isAdded) {
             // Lưu tệp tin vào thư mục đã chỉ định
             imagePart.write(uploadPath + imageFileName);
-            req.setAttribute("success", "Thêm sản phẩm thành công.");
-            resp.sendRedirect(req.getContextPath() + "/admin/products/");
+            req.getSession().setAttribute("success", "Thêm sản phẩm thành công.");
+            resp.sendRedirect(req.getContextPath() + "/admin/products");
         }
         else {
-            req.setAttribute("error", "Thêm sản phẩm thất bại. Vui lòng kiểm tra lại dữ liệu.");
-            req.getRequestDispatcher("/jsp/admin/products/addProducts.jsp").forward(req, resp);
+            req.getSession().setAttribute("error", "Thêm sản phẩm thất bại. Vui lòng kiểm tra lại dữ liệu.");
+            req.getRequestDispatcher("/jsp/admin/products/add").forward(req, resp);
         }
     }
 }

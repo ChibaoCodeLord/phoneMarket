@@ -7,18 +7,25 @@ public class Products {
     private String description;
     private String image;
     private int stock_quantity;
+    private  boolean is_active;
 
-    public Products(int id, String name, int price, String description, String image, int stock_quantity) {
+    public Products(int id, String name, int price, String description, String image, int stock_quantity, boolean is_active) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
         this.image = image;
         this.stock_quantity = stock_quantity;
-
+        this.is_active = is_active;
     }
 
+    public boolean is_active() {
+        return is_active;
+    }
 
+    public void setIs_active(boolean is_active) {
+        this.is_active = is_active;
+    }
 
     public int getId() {
         return id;

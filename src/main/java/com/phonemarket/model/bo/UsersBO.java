@@ -44,4 +44,18 @@ public class UsersBO {
         }
         return usersDAO.update(user);
     }
+
+    public boolean checkPassword(int userId, String oldPassword) {
+        if (userId <= 0 || oldPassword == null) {
+            return false;
+        }
+        return usersDAO.checkPassword(userId, oldPassword);
+    }
+
+    public boolean updatePassword(int userId, String newPassword) {
+        if (userId <= 0 || newPassword == null) {
+            return false;
+        }
+        return usersDAO.updatePassword(userId, newPassword);
+    }
 }
