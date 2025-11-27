@@ -52,7 +52,7 @@ public class UsersController extends HttpServlet {
             req.setAttribute("usersList", usersList);
 
             // Forward tới trang JSP hiển thị User
-            req.getRequestDispatcher("/jsp/admin/users/admin-users.jsp")
+            req.getRequestDispatcher("/jsp/admin/users/list_users.jsp")
                     .forward(req, resp);
         }else if ("/detail".equals(action)) {
             try {
@@ -60,15 +60,15 @@ public class UsersController extends HttpServlet {
                 Users user = usersBO.getUserById(userId);
                 if (user != null) {
                     req.setAttribute("user", user);
-                    // Forward tới trang detailUser.jsp
-                    req.getRequestDispatcher("/jsp/admin/users/detailUser.jsp").forward(req, resp);
+                    // Forward tới trang detail_user.jsp
+                    req.getRequestDispatcher("/jsp/admin/users/detail_user.jsp").forward(req, resp);
                 } else {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 req.setAttribute("error", "Lỗi tải chi tiết user: " + e.getMessage());
-                req.getRequestDispatcher("/jsp/admin/users/admin-users.jsp").forward(req, resp);
+                req.getRequestDispatcher("/jsp/admin/users/list_users.jsp").forward(req, resp);
             }
         }
 
@@ -79,7 +79,7 @@ public class UsersController extends HttpServlet {
                 Users user = usersBO.getUserById(userId);
                 if (user != null) {
                     req.setAttribute("user", user);
-                    req.getRequestDispatcher("/jsp/admin/users/updateUser.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/jsp/admin/users/update_user.jsp").forward(req, resp);
                 } else {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
@@ -96,12 +96,12 @@ public class UsersController extends HttpServlet {
                     resp.sendRedirect(req.getContextPath() + "/admin/users/");
                 } else {
                     req.setAttribute("error", "Xóa người dùng thất bại!");
-                    req.getRequestDispatcher("/jsp/admin/users/admin-users.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/jsp/admin/users/list_users.jsp").forward(req, resp);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 req.setAttribute("error", "Lỗi xóa người dùng: " + e.getMessage());
-                req.getRequestDispatcher("/jsp/admin/users/admin-users.jsp").forward(req, resp);
+                req.getRequestDispatcher("/jsp/admin/users/list_users.jsp").forward(req, resp);
             }
         }
         else {
@@ -157,13 +157,13 @@ public class UsersController extends HttpServlet {
                 } else {
                     req.setAttribute("error", "Cập nhật người dùng thất bại!");
                     req.setAttribute("user", user);
-                    req.getRequestDispatcher("/jsp/admin/users/updateUser.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/jsp/admin/users/update_user.jsp").forward(req, resp);
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
                 req.setAttribute("error", "Lỗi server: " + e.getMessage());
-                req.getRequestDispatcher("/jsp/admin/users/updateUser.jsp").forward(req, resp);
+                req.getRequestDispatcher("/jsp/admin/users/update_user.jsp").forward(req, resp);
             }
         } else {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);

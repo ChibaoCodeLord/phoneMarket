@@ -1,0 +1,225 @@
+
+    /* Modern CSS for Order Detail Page - Clean, responsive, shadows */
+.order-detail-container {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+    margin: 24px 0;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Order Header */
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.order-header h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+}
+
+.order-header p {
+    color: #64748b;
+    font-size: 14px;
+    margin: 4px 0 0 0;
+}
+
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-badge.status-pending { background: #fef3c7; color: #d97706; }
+.status-badge.status-processing { background: #dbeafe; color: #1d4ed8; }
+.status-badge.status-shipped { background: #dcfce7; color: #16a34a; }
+.status-badge.status-completed { background: #ecfdf5; color: #059669; }
+.status-badge.status-cancelled { background: #fef2f2; color: #dc2626; }
+
+/* Customer Info */
+.customer-info {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 32px;
+}
+
+.customer-info h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.customer-info p {
+    margin: 12px 0;
+    color: #374151;
+    font-size: 16px;
+}
+
+.customer-info strong {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* Order Items */
+.order-items {
+    margin-bottom: 32px;
+}
+
+.order-items h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 16px;
+}
+
+.order-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+}
+
+.order-items-table th {
+    background: #f8fafc;
+    padding: 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #64748b;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.order-items-table td {
+    padding: 16px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.order-items-table tr:hover {
+    background: #f8fafc;
+}
+
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-img-detail {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #e5e7eb;
+}
+
+/* Order Total */
+.order-total {
+    text-align: right;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border-left: 4px solid #3b82f6;
+}
+
+.order-total h4 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+/* Order Actions */
+.order-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding: 20px 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn-primary, .btn-outline {
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.btn-outline {
+    background: transparent;
+    color: #6b7280;
+    border: 2px solid #d1d5db;
+}
+
+.btn-outline:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .order-header {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+
+    .order-items-table th, .order-items-table td {
+        padding: 12px 8px;
+        font-size: 14px;
+    }
+
+    .order-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-primary, .btn-outline {
+        width: 100%;
+    }
+
+    .product-info {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+}

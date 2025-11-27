@@ -1,5 +1,5 @@
 <!-- Header Component với Dropdown cho User Profile -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/component/header.css">
+<link rel="stylesheet" href="/css/component/header.css">
 <!-- Header Component với Dropdown cho User Profile -->
 <header class="header">
     <div class="header-left">
@@ -16,7 +16,7 @@
             <img src="/images/avatar.jpg" alt="User Avatar" class="avatar">
             <!-- Dropdown Menu -->
             <div class="dropdown" id="userDropdown">
-                <a href="${pageContext.request.contextPath}/admin/profile"><i class="fas fa-user"></i>Profile</a>
+                <a href="/admin/profile"><i class="fas fa-user"></i>Profile</a>
                 <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
         </div>
