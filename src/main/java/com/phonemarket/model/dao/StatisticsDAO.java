@@ -127,7 +127,7 @@ public class StatisticsDAO {
 
     // ================================
     // 6. Đơn hàng gần nhất (JOIN users và order_details/products, GROUP_CONCAT products)
-    // Trả về List<Orders> với full_name và product_names
+    // Trả về List<Orders> với fullname và product_names
     // ================================
     public List<Orders> recentOrders() {
         String sql = """
@@ -138,13 +138,13 @@ public class StatisticsDAO {
                 o.total_amount,
                 o.shipping_address,
                 o.status,
-                u.full_name AS customer_name,
+                u.fullname AS customer_name,
                 GROUP_CONCAT(p.name SEPARATOR ', ') AS product_names
             FROM orders o
             JOIN users u ON o.user_id = u.user_id
             LEFT JOIN order_details od ON o.order_id = od.order_id
             LEFT JOIN products p ON od.product_id = p.product_id
-            GROUP BY o.order_id, o.user_id, o.order_date, o.total_amount, o.shipping_address, o.status, u.full_name
+            GROUP BY o.order_id, o.user_id, o.order_date, o.total_amount, o.shipping_address, o.status, u.fullname
             ORDER BY o.order_date DESC
             LIMIT 5
         """;
