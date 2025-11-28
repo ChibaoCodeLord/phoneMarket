@@ -44,6 +44,18 @@ public class OrdersController extends HttpServlet {
                             .forward(req, resp);
                     break;
 
+                case "/edit":
+                    int editId = Integer.parseInt(req.getParameter("id"));
+                    Orders editOrder = ordersBO.getOrderDetails(editId);
+                    List<OrderDetailItem> editItems = ordersBO.getOrderDetailItems(editId);
+                    req.setAttribute("order", editOrder);
+                    req.setAttribute("orderItems", editItems);
+                    req.getRequestDispatcher("/jsp/admin/orders/update_order.jsp")
+                            .forward(req, resp);
+                    break;
+
+
+
                 case "/delete":
                     int deleteId = Integer.parseInt(req.getParameter("id"));
                     boolean canceled = ordersBO.cancelOrder(deleteId);
