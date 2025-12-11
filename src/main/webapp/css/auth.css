@@ -216,7 +216,19 @@ p {
     gap: 0.5rem;
     font-size: 0.9rem;
 }
-
+/* CSS thêm cho error message trong JS */
+.error-field
+{
+    border-color: #e74c3c !important;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1) !important;
+}
+.error-msg
+{
+    color: #e74c3c;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: block;
+}
 /* Responsive: Stack vertical trên mobile */
 @media (max-width: 768px) {
     .auth-container {

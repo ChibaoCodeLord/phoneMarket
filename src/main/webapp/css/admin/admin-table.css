@@ -1,0 +1,361 @@
+/* admin-table.css: CSS cho trang quản lý sản phẩm (modern UI như tham khảo) */
+
+/* Breadcrumb Section */
+.breadcrumb-section {
+    margin: 24px 30px 24px 30px;  /* top right bottom left */
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.breadcrumb a {
+    color: #3b82f6;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb a:hover {
+    color: #1d4ed8;
+}
+
+.breadcrumb span {
+    color: #d1d5db;
+}
+
+.btn-new-product {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-size: 14px;
+}
+
+.btn-new-product:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Filter Section */
+.filter-section {
+    margin: 0 30px 24px 30px;  /* top 0, right/left 30px, bottom 24px */
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-input {
+    position: relative;
+    width: 300px;
+}
+
+.search-input i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+}
+
+.search-input input {
+    width: 100%;
+    padding: 12px 16px 12px 48px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-filter, .btn-export {
+    padding: 8px 16px;
+    border: 1px solid #d1d5db;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #374151;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-filter:hover, .btn-export:hover {
+    background: #f9fafb;
+}
+
+select#categoryFilter {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    font-size: 14px;
+}
+
+/* Table Container */
+.table-container {
+    margin: 0 30px 24px 30px;  /* top 0, right/left 30px, bottom 24px */
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+tbody tr:hover {
+    background: #f9fafb;
+}
+
+tbody tr:nth-child(even) {
+    background: #fafbfc;
+}
+
+/* Product Info */
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #e5e7eb;
+}
+
+/* Status Badge */
+.status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.status.active {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.status.inactive {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.action-buttons a {
+    color: #9ca3af;
+    text-decoration: none;
+    padding: 6px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    font-size: 14px;
+}
+
+.action-buttons a:hover {
+    color: #3b82f6;
+    background: #eff6ff;
+}
+
+/* Pagination Section */
+.pagination-section {
+    margin: 0 30px 30px 30px;  /* top 0, right/left 30px, bottom 30px */
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pagination-info {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-pag {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #374151;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-pag:hover:not(:disabled) {
+    background: #f3f4f6;
+}
+
+.btn-pag.active {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+.btn-pag:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.product-img { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; }
+.no-data { text-align: center; padding: 40px; color: #64748b; }
+/* Responsive */
+@media (max-width: 768px) {
+    .breadcrumb-section, .filter-section, .table-container, .pagination-section {
+        margin: 16px 16px 16px 16px;  /* Giảm margin đều 16px */
+        padding: 16px;
+    }
+    .search-input {
+        width: 100%;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 12px 8px;
+    }
+
+    .action-buttons {
+        gap: 4px;
+    }
+
+    .action-buttons a {
+        padding: 4px;
+        font-size: 12px;
+    }
+}
+/* CSS cho action-buttons - Modern colors & hover effects */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.action-buttons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;  /* Gray default */
+}
+
+/* View icon - Blue */
+.action-buttons a[href*="view"] {
+    color: #3b82f6;  /* Blue */
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.action-buttons a[href*="view"]:hover {
+    color: #1d4ed8;  /* Darker blue */
+    background: rgba(59, 130, 246, 0.2);
+    transform: scale(1.1);
+}
+
+/* Edit icon - Green */
+.action-buttons a[href*="edit"] {
+    color: #10b981;  /* Green */
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.action-buttons a[href*="edit"]:hover {
+    color: #059669;  /* Darker green */
+    background: rgba(16, 185, 129, 0.2);
+    transform: scale(1.1);
+}
+
+/* Delete icon - Red */
+.action-buttons a[href*="delete"] {
+    color: #ef4444;  /* Red */
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.action-buttons a[href*="delete"]:hover {
+    color: #dc2626;  /* Darker red */
+    background: rgba(239, 68, 68, 0.2);
+    transform: scale(1.1);
+}
+
+/* Responsive - Smaller icons on mobile */
+@media (max-width: 768px) {
+    .action-buttons a {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+}

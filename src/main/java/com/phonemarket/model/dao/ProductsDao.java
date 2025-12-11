@@ -1,0 +1,137 @@
+package com.phonemarket.model.dao;
+
+import com.phonemarket.connection.ConnectJDBC;
+import com.phonemarket.model.bean.Products;
+
+import javax.sql.DataSource;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static com.phonemarket.connection.ConnectJDBC.getConnection;
+
+public class ProductsDao {
+
+    public ProductsDao() {
+    }
+
+    public Products findById(int id) throws SQLException {
+        String sql = "SELECT * FROM products WHERE product_id = ?";
+        try (Connection c = getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return (mapRow(rs));
+            }
+        }
+        return null;
+    }
+
+    public List<Products> findByName(String name) throws SQLException {
+        List<Products> list = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE name LIKE ?";
+        try (Connection c = getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            String pattern = "%" + (name == null ? "" : name.trim()) + "%";
+            ps.setString(1, pattern);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(mapRow(rs));
+                }
+            }
+        }
+        return list;
+    }
+
+    public List<Products> findAll() throws SQLException {
+        String sql = "SELECT *  FROM products";
+        List<Products> list = new ArrayList<>();
+        try (Connection c = getConnection();
+             PreparedStatement ps = c.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) list.add(mapRow(rs));
+        }
+        return list;
+    }
+
+    public boolean insert(Products p) throws SQLException {
+        String sql = "INSERT INTO products (name, price, description, image_url, stock_quantity, is_active) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection c = getConnection();
+             PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setInt(2, p.getPrice());
+                ps.setString(3, p.getDescription());
+                ps.setString(4, p.getImage());
+                ps.setInt(5, p.getStock_quantity());
+                ps.setBoolean(6, p.is_active());
+                ps.setString(1, p.getName());
+                int affected = ps.executeUpdate();
+                if (affected == 0) return false;
+                try (ResultSet keys = ps.getGeneratedKeys()) {
+                    if (keys.next()) return true;
+                }
+        }
+        return false;
+    }
+
+    public boolean update(Products p) throws SQLException {
+        String sql = "UPDATE products SET name = ?, description = ?, price = ?, image_url = ?, stock_quantity = ?, is_active = ?  WHERE product_id = ?";
+        try (Connection c = getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, p.getName());
+            ps.setString(2, p.getDescription());
+            ps.setInt(3, p.getPrice());
+            ps.setString(4, p.getImage());
+            ps.setInt(5, p.getStock_quantity());
+            ps.setBoolean(6, p.is_active());
+            ps.setInt(7, p.getId());
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    public boolean delete(int id) throws SQLException {
+        String sql = "DELETE FROM products WHERE product_id = ?";
+        try (Connection c = getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+        }
+    }
+    public List<Products> getAllProducts() throws SQLException {
+        return findAll();
+    }
+
+    public Products getProductById(int id) throws SQLException {
+        return findById(id);
+    }
+
+    public boolean addProduct(Products product) throws SQLException {
+        return insert(product);
+    }
+
+    public List<Products> searchProductsByName(String keyword) throws SQLException {
+        String sql = "SELECT * FROM products WHERE name LIKE ?";
+        List<Products> list = new ArrayList<>();
+        try (Connection c = getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, "%" + keyword + "%");
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(mapRow(rs));
+                }
+            }
+        }
+        return list;
+    }
+    private Products mapRow(ResultSet rs) throws SQLException {
+        return new Products(
+                rs.getInt("product_id"),
+                rs.getString("name"),
+                rs.getInt("price"),
+                rs.getString("description"),
+                rs.getString("image_url"),
+                rs.getInt("stock_quantity"),
+                rs.getBoolean("is_active")
+        );
+    }
+}

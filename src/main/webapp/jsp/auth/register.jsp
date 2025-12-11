@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - PhoneMarket</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/auth.css">
 </head>
 <body>
 <div class="auth-container">
@@ -27,46 +27,51 @@
         <form action="${pageContext.request.contextPath}/register" method="post" id="registerForm">
             <div class="input-group">
                 <label>FULL NAME</label>
-                <input type="text" name="fullname" placeholder="Full Name" required>
+                <input type="text" name="fullName" placeholder="Full Name" required id="fullName">
+                <span class="error-msg" id="fullNameError"></span>
             </div>
             <div class="input-group">
                 <label>EMAIL</label>
-                <input type="email" name="email" placeholder="Email" required>
+                <input type="email" name="email" placeholder="Email" required id="email">
+                <span class="error-msg" id="emailError"></span>
             </div>
             <div class="input-group">
                 <label>USERNAME</label>
-                <input type="text" name="username" placeholder="Username" required>
+                <input type="text" name="username" placeholder="Username" required id="username">
+                <span class="error-msg" id="usernameError"></span>
+            </div>
+            <div class="input-group">
+                <label>PHONE</label>
+                <input type="tel" name="phone" placeholder="Phone Number" id="phone">
+                <span class="error-msg" id="phoneError"></span>
+            </div>
+            <div class="input-group">
+                <label>ADDRESS</label>
+                <input type="text" name="address" placeholder="Address" id="address">
+                <span class="error-msg" id="addressError"></span>
             </div>
             <div class="input-group">
                 <label>PASSWORD</label>
                 <input type="password" name="password" placeholder="Password" id="password" required>
+                <span class="error-msg" id="passwordError"></span>
             </div>
             <div class="input-group">
                 <label>CONFIRM PASSWORD</label>
                 <input type="password" name="confirmPassword" placeholder="Confirm Password" id="confirmPassword" required>
+                <span class="error-msg" id="confirmPasswordError"></span>
             </div>
             <button type="submit" class="auth-btn primary">Sign Up</button>
         </form>
     </div>
-
     <!-- Bên phải: Welcome + Sign In -->
     <div class="auth-right">
         <h2>Welcome to register</h2>
         <p>Already have an account?</p>
-        <a href="login.jsp" class="auth-btn secondary">Sign In</a>
+        <a href="/login" class="auth-btn secondary">Sign In</a>
     </div>
 </div>
 
-<script>
-    // JS validation cho confirm password
-    document.getElementById('registerForm').addEventListener('submit', function(e) {
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-        if (password !== confirmPassword) {
-            e.preventDefault();
-            alert('Passwords do not match!');
-        }
-    });
-</script>
+<!-- Link file JS riêng -->
+<script src="/js/auth/register-validation.js"></script>
 </body>
 </html>
