@@ -20,6 +20,7 @@
         .gradient-red { background: linear-gradient(135deg, #e60023 0%, #ff1a3c 100%); }
     </style>
 </head>
+
 <body class="bg-gray-50 text-gray-900">
 
 <div class="max-w-5xl mx-auto px-4 py-6">
