@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -41,10 +42,10 @@
     <div class="relative rounded-2xl overflow-hidden shadow-2xl mb-8 glass">
         <c:choose>
             <c:when test="${not empty product.image}">
-                <img src="${product.image}" alt="${product.name}" class="w-full aspect-video object-contain bg-gray-100" />
+                <img src="${pageContext.request.contextPath}${product.image}" alt="${fn:escapeXml(product.name)}" class="w-full aspect-video object-contain bg-gray-100" />
             </c:when>
             <c:otherwise>
-                <img src="https://placehold.co/800x450?text=No+Image" alt="No image" class="w-full aspect-video object-cover" />
+                <img src="${pageContext.request.contextPath}/assets/images/products/default.png" alt="No image" class="w-full aspect-video object-cover" />
             </c:otherwise>
         </c:choose>
         <div class="absolute bottom-4 left-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded text-sm">
@@ -144,7 +145,12 @@
             <tr class="border-b"><td class="py-3 font-medium">Tên sản phẩm</td><td>${product.name}</td></tr>
             <tr class="border-b"><td class="py-3 font-medium">Giá bán</td><td><fmt:formatNumber value="${product.price}" pattern="#,##0"/>đ</td></tr>
             <tr class="border-b"><td class="py-3 font-medium">Tồn kho</td><td>${product.stock_quantity}</td></tr>
-            <tr><td class="py-3 font-medium">Trạng thái</td><td>${product.is_active ? 'Đang bán' : 'Ngừng kinh doanh'}</td></tr>
+            <tr><td class="py-3 font-medium">Trạng thái</td><td>
+                <c:choose>
+                    <c:when test="${product.is_active}">Đang bán</c:when>
+                    <c:otherwise>Ngừng kinh doanh</c:otherwise>
+                </c:choose>
+            </td></tr>
         </table>
     </div>
 </div>
@@ -160,8 +166,18 @@
         </div>
         <div class="flex gap-3">
             <button class="bg-gray-200 text-gray-800 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-300 transition">Trả góp 0%</button>
-            <button class="gradient-red text-white px-12 py-4 rounded-xl font-bold text-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition">MUA NGAY</button>
+
+            <!-- Form để thêm vào cart -->
+            <form id="detailAddToCartForm" action="${pageContext.request.contextPath}/add-to-cart" method="post">
+                <input type="hidden" name="productId" value="${product.id}" />
+                <input type="hidden" name="quantity" value="1" />
+                <button type="submit" class="gradient-red text-white px-12 py-4 rounded-xl font-bold text-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition">
+                    MUA NGAY
+                </button>
+            </form>
         </div>
+    </div>
+</div>
     </div>
 </div>
 
@@ -207,4 +223,4 @@
 </script>
 
 </body>
-</html
+</html>

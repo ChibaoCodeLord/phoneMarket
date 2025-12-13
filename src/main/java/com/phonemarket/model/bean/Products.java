@@ -23,6 +23,10 @@ public class Products {
         return is_active;
     }
 
+    // Added for JavaBean compliant access as some EL resolvers expect getIs_active or isActive
+    public boolean getIs_active() { return is_active; }
+    public boolean isActive() { return is_active; }
+
     public void setIs_active(boolean is_active) {
         this.is_active = is_active;
     }

@@ -66,14 +66,26 @@
                         Object imageObj = getImage.invoke(item);
                         String image = (imageObj != null) ? imageObj.toString() : "";
 
+                        // Normalize image src: prefix context path for relative paths, and use default image when absent
+                        String imageSrc;
+                        if (image != null && !image.isEmpty()) {
+                            if (image.startsWith("/")) {
+                                imageSrc = request.getContextPath() + image;
+                            } else {
+                                imageSrc = image;
+                            }
+                        } else {
+                            imageSrc = request.getContextPath() + "/assets/images/products/default.png";
+                        }
+
                         double oldPrice = price * 1.2;
                         double discount = price * 0.2;
             %>
             <div class="product-card">
                 <a href="<%= request.getContextPath() %>/detail?id=<%= id %>" class="product-link">
                     <div class="product-image-wrapper">
-                        <img src="<%= (image != null && !image.isEmpty()) ? image : "https://placehold.co/250x250" %>"
-                             alt="<%= name.replace("\"", "&quot;") %>"
+                            <img src="<%= imageSrc %>"
+                                alt="<%= name.replace("\"", "&quot;") %>"
                              class="product-image"
                              loading="lazy"/>
                         <div class="product-badge">Trả góp 0%</div>

@@ -45,18 +45,21 @@ public class DetailController extends HttpServlet {
             System.out.println("✅ SET product attribute");
 
             // Forward đến detailProduct.jsp
-            request.getRequestDispatcher("/jsp/user/detailProduct.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/user/detail/detailProduct.jsp").forward(request, response);
 
         } catch (NumberFormatException e) {
             System.err.println("❌ Invalid ID: " + e.getMessage());
+            e.printStackTrace();
             request.setAttribute("errorMsg", "ID sản phẩm không hợp lệ.");
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         } catch (SQLException e) {
             System.err.println("❌ Database error: " + e.getMessage());
+            e.printStackTrace();
             request.setAttribute("errorMsg", "Lỗi cơ sở dữ liệu: " + e.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             System.err.println("❌ Unexpected error: " + e.getMessage());
+            e.printStackTrace();
             request.setAttribute("errorMsg", "Lỗi không mong muốn: " + e.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
