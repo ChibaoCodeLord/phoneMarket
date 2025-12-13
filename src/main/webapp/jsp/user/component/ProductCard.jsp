@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -205,6 +205,24 @@
 
 <script>
     function addToCart(id) {
-        alert('Đã thêm sản phẩm #' + id + ' vào giỏ hàng');
+        const ctx = "" + "${pageContext.request.contextPath}";
+        const body = new URLSearchParams();
+        body.append('productId', id);
+        body.append('quantity', 1);
+        fetch(ctx + '/add-to-cart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body.toString()
+        }).then(resp => {
+            // On success redirect to cart
+            if (resp.redirected) {
+                window.location.href = resp.url;
+            } else {
+                window.location.href = ctx + '/cart';
+            }
+        }).catch(err => {
+            console.error('Add to cart failed:', err);
+            alert('Không thể thêm vào giỏ hàng.');
+        });
     }
 </script>

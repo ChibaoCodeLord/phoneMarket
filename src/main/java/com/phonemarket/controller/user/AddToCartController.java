@@ -29,7 +29,15 @@ public class AddToCartController extends HttpServlet {
         try {
             // Lấy productId từ form
             int productId = Integer.parseInt(request.getParameter("productId"));
-            int quantity = 1; // Mặc định 1, có thể lấy từ form nếu cần
+            int quantity = 1; // Mặc định 1
+            String qParam = request.getParameter("quantity");
+            if (qParam != null && !qParam.isBlank()) {
+                try {
+                    quantity = Integer.parseInt(qParam);
+                } catch (NumberFormatException nfe) {
+                    // keep default
+                }
+            }
 
             // Lấy sản phẩm từ DB
             Products product = productsBo.getProductById(productId);

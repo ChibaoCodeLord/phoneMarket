@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
@@ -67,6 +67,7 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <c:set var="totalPriceSum" value="0" />
                     <c:forEach var="item" items="${cart}">
                         <tr class="border-b">
                             <td class="py-4">
@@ -84,6 +85,7 @@
                                 </a>
                             </td>
                         </tr>
+                        <c:set var="totalPriceSum" value="${totalPriceSum + item.totalPrice}" />
                     </c:forEach>
                     </tbody>
                 </table>
@@ -94,7 +96,7 @@
                 <h3 class="text-xl font-bold">
                     Tổng cộng:
                     <span class="text-red-600">
-                        <fmt:formatNumber value="${cart.stream().mapToDouble(item -> item.totalPrice).sum()}" pattern="#,##0"/>đ
+                        <fmt:formatNumber value="${totalPriceSum}" pattern="#,##0"/>đ
                     </span>
                 </h3>
             </div>
