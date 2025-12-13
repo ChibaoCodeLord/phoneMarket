@@ -33,31 +33,5 @@
     <a href="#"><i class="fas fa-user"></i><span>Tài khoản</span></a>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const timer = document.getElementById('timer');
-        if (!timer) {
-            console.warn('Timer element not found! Check FlashSale.jsp');
-            return;
-        }
-
-        let time = 2 * 3600 + 15 * 60 + 8;
-
-        const updateTimer = () => {
-            if (time <= 0) {
-                timer.textContent = '00 : 00 : 00';
-                return;
-            }
-            time--;
-            const h = String(Math.floor(time / 3600)).padStart(2, '0');
-            const m = String(Math.floor((time % 3600) / 60)).padStart(2, '0');
-            const s = String(time % 60).padStart(2, '0');
-            timer.textContent = `${h} : ${m} : ${s}`;
-        };
-
-        updateTimer();
-        setInterval(updateTimer, 1000);
-    });
-</script>
 </body>
 </html>

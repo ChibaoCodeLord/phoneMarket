@@ -2,6 +2,7 @@ package com.phonemarket.controller.user;
 
 import com.phonemarket.model.bean.CartItem;
 import com.phonemarket.model.bean.Products;
+import com.phonemarket.model.bean.Users;
 import com.phonemarket.model.bo.ProductsBo;
 
 import jakarta.servlet.ServletException;
@@ -39,6 +40,15 @@ public class AddToCartController extends HttpServlet {
                 }
             }
 
+            HttpSession session = request.getSession();
+            // Kiểm tra đăng nhập
+            Users currentUser = (Users) session.getAttribute("currentUser");
+            if (currentUser == null) {
+                // Redirect to login and return to product detail after login
+                response.sendRedirect(request.getContextPath() + "/login?redirect=/detail?id=" + productId);
+                return;
+            }
+
             // Lấy sản phẩm từ DB
             Products product = productsBo.getProductById(productId);
             if (product == null || !product.is_active() || product.getStock_quantity() < quantity) {
@@ -48,8 +58,7 @@ public class AddToCartController extends HttpServlet {
                 return;
             }
 
-            // Lấy session và giỏ hàng (nếu chưa có thì tạo mới)
-            HttpSession session = request.getSession();
+            // Lấy giỏ hàng (nếu chưa có thì tạo mới)
             List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
             if (cart == null) {
                 cart = new ArrayList<>();

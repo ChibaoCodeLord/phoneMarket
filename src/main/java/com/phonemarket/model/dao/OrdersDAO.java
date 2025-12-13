@@ -39,7 +39,7 @@ public class OrdersDAO {
         String sql = """
             SELECT o.order_id, o.user_id, o.order_date, o.total_amount, 
                    o.shipping_address, o.status,
-                   u.fullname AS customer_name,
+                   u.full_name AS customer_name,
                    GROUP_CONCAT(p.name SEPARATOR ', ') AS product_names
             FROM orders o
             JOIN users u ON o.user_id = u.user_id
@@ -65,7 +65,7 @@ public class OrdersDAO {
         String sql = """
             SELECT o.order_id, o.user_id, o.order_date, o.total_amount,
                    o.shipping_address, o.status,
-                   u.fullname AS customer_name,
+                   u.full_name AS customer_name,
                    GROUP_CONCAT(p.name SEPARATOR ', ') AS product_names
             FROM orders o
             JOIN users u ON o.user_id = u.user_id
@@ -87,12 +87,27 @@ public class OrdersDAO {
         return list;
     }
 
+    /** Find all orders belonging to a specific user */
+    public List<Orders> findByUserId(int userId) throws SQLException {
+        String sql = "SELECT o.order_id, o.user_id, o.order_date, o.total_amount, o.shipping_address, o.status, u.full_name AS customer_name, '' AS product_names FROM orders o JOIN users u ON o.user_id = u.user_id WHERE o.user_id = ? ORDER BY o.order_date DESC";
+        List<Orders> list = new ArrayList<>();
+        try (Connection c = getConn(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(mapRow(rs));
+                }
+            }
+        }
+        return list;
+    }
+
     /** Lấy đơn hàng + chi tiết (ảnh, giá, số lượng) */
     public Orders getOrderWithDetails(int id) throws SQLException {
         String sql = """
             SELECT o.order_id, o.user_id, o.order_date, o.total_amount,
                    o.shipping_address, o.status,
-                   u.fullname AS customer_name,
+                   u.full_name AS customer_name,
                    u.email AS customer_email,
                    u.phone_number AS customer_phone,
                    GROUP_CONCAT(p.name SEPARATOR ', ') AS product_names,
@@ -249,6 +264,78 @@ public class OrdersDAO {
             System.out.println("OrdersDAO.updateOrder - rows updated: " + updated);
             return updated > 0;
         }
+    }
+
+    /** Tạo order mới và trả về order_id sinh bởi DB */
+    public int createOrder(Orders order) throws SQLException {
+        String sql = "INSERT INTO orders (user_id, order_date, total_amount, shipping_address, status) VALUES (?, ?, ?, ?, ?)";
+        try (Connection c = getConn(); PreparedStatement ps = c.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, order.getUserId());
+            ps.setTimestamp(2, new java.sql.Timestamp(order.getOrderDate().getTime()));
+            ps.setDouble(3, order.getTotalAmount());
+            ps.setString(4, order.getShippingAddress());
+            ps.setString(5, order.getStatus());
+            int affected = ps.executeUpdate();
+            if (affected == 0) return -1;
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) return keys.getInt(1);
+            }
+        }
+        return -1;
+    }
+
+    /** Overload that uses provided connection — allows transaction control by caller */
+    public int createOrder(Connection c, Orders order) throws SQLException {
+        String sql = "INSERT INTO orders (user_id, order_date, total_amount, shipping_address, status) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = c.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, order.getUserId());
+            ps.setTimestamp(2, new java.sql.Timestamp(order.getOrderDate().getTime()));
+            ps.setDouble(3, order.getTotalAmount());
+            ps.setString(4, order.getShippingAddress());
+            ps.setString(5, order.getStatus());
+            int affected = ps.executeUpdate();
+            if (affected == 0) return -1;
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) return keys.getInt(1);
+            }
+        }
+        return -1;
+    }
+
+    /** Thêm order_details từ giỏ hàng */
+    public boolean addOrderDetails(int orderId, List<com.phonemarket.model.bean.CartItem> cart) throws SQLException {
+        if (cart == null || cart.isEmpty()) return true;
+        String sql = "INSERT INTO order_details (order_id, product_id, quantity, price_at_purchase) VALUES (?, ?, ?, ?)";
+        try (Connection c = getConn(); PreparedStatement ps = c.prepareStatement(sql)) {
+            for (com.phonemarket.model.bean.CartItem item : cart) {
+                ps.setInt(1, orderId);
+                ps.setInt(2, item.getProduct().getId());
+                ps.setInt(3, item.getQuantity());
+                ps.setDouble(4, item.getProduct().getPrice());
+                ps.addBatch();
+            }
+            int[] result = ps.executeBatch();
+            for (int r : result) if (r == 0) return false;
+        }
+        return true;
+    }
+
+    /** Overload that uses provided connection — allows transaction control by caller */
+    public boolean addOrderDetails(Connection c, int orderId, List<com.phonemarket.model.bean.CartItem> cart) throws SQLException {
+        if (cart == null || cart.isEmpty()) return true;
+        String sql = "INSERT INTO order_details (order_id, product_id, quantity, price_at_purchase) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement ps = c.prepareStatement(sql)) {
+            for (com.phonemarket.model.bean.CartItem item : cart) {
+                ps.setInt(1, orderId);
+                ps.setInt(2, item.getProduct().getId());
+                ps.setInt(3, item.getQuantity());
+                ps.setDouble(4, item.getProduct().getPrice());
+                ps.addBatch();
+            }
+            int[] result = ps.executeBatch();
+            for (int r : result) if (r == 0) return false;
+        }
+        return true;
     }
 
 }

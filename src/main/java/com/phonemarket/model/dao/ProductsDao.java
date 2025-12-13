@@ -123,6 +123,30 @@ public class ProductsDao {
         }
         return list;
     }
+    
+    /** Giảm tồn kho cho sản phẩm (sử dụng khi thanh toán) */
+    public boolean decrementStock(int productId, int delta) throws SQLException {
+        String sql = "UPDATE products SET stock_quantity = stock_quantity - ? WHERE product_id = ? AND stock_quantity >= ?";
+        try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, delta);
+            ps.setInt(2, productId);
+            ps.setInt(3, delta);
+            int updated = ps.executeUpdate();
+            return updated > 0;
+        }
+    }
+
+    /** Overload: decrement using a provided Connection to support transactional flow */
+    public boolean decrementStock(Connection c, int productId, int delta) throws SQLException {
+        String sql = "UPDATE products SET stock_quantity = stock_quantity - ? WHERE product_id = ? AND stock_quantity >= ?";
+        try (PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, delta);
+            ps.setInt(2, productId);
+            ps.setInt(3, delta);
+            int updated = ps.executeUpdate();
+            return updated > 0;
+        }
+    }
     private Products mapRow(ResultSet rs) throws SQLException {
         return new Products(
                 rs.getInt("product_id"),

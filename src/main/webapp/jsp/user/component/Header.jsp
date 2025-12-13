@@ -1,4 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <header class="header">
     <div class="container">
         <div class="header-left">
@@ -38,11 +40,21 @@
 
         <!-- PHẢI: Giỏ hàng + Đăng nhập -->
         <div class="header-actions">
+            <a href="${pageContext.request.contextPath}/orders" class="orders-icon" title="Lịch sử mua hàng">
+                <i class="fas fa-receipt"></i>
+            </a>
             <a href="${pageContext.request.contextPath}/cart" class="cart-icon">
                 <i class="fas fa-shopping-cart"></i>
-                <span class="badge">3</span>
+                <span class="badge">${fn:length(sessionScope.cart)}</span>
             </a>
-            <a href="/jsp/auth/login.jsp" class="login-btn">Đăng nhập</a>
+            <c:choose>
+                <c:when test="${not empty sessionScope.currentUser}">
+                    <a href="${pageContext.request.contextPath}/logout" class="login-btn">Đăng xuất</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageContext.request.contextPath}/login" class="login-btn">Đăng nhập</a>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 </header>

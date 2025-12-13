@@ -25,6 +25,7 @@
             </div>
         </c:if>
         <form action="${pageContext.request.contextPath}/login" method="post">
+            <input type="hidden" name="redirect" value="${param.redirect}" />
             <div class="input-group">
                 <label>USERNAME</label>
                 <input type="text" name="username" placeholder="Username" required id="username">

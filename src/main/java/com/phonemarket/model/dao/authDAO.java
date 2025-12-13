@@ -39,7 +39,7 @@ public class authDAO {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        String sql = "INSERT INTO users (username, password, email,phone_number, address, fullname) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (username, password, email,phone_number, address, full_name) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConnectJDBC.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 

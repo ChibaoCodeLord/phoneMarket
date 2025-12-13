@@ -313,6 +313,7 @@ body {
 }
 
 /* ===== FLASH SALE ===== */
+/* ===== FLASH SALE - FIXED VERSION ===== */
 .flash-sale {
     background: var(--white);
     padding: 30px 0;
@@ -341,21 +342,163 @@ body {
     font-weight: 600;
 }
 
-.flash-sale-slider {
-    display: flex;
-    overflow-x: auto;
-    gap: 16px;
-    padding: 10px 0;
-    scroll-snap-type: x mandatory;
+.flash-sale-wrapper {
+    position: relative;
+    padding: 0 50px; /* Tạo không gian cho nút mũi tên */
 }
 
+.flash-sale-slider {
+    display: flex;
+    align-items: stretch;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 24px;
+    padding: 10px 0;
+    scroll-snap-type: x mandatory;
+    justify-content: flex-start;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+}
+
+/* FIX: Đảm bảo tất cả các card có cùng kích thước - CSS mạnh nhất với specificity cao */
+.flash-sale-wrapper .flash-sale-slider .product-card,
+.flash-sale-wrapper .flash-sale-slider > .product-card,
+.flash-sale-wrapper .flash-sale-slider * .product-card,
+.flash-sale-wrapper .flash-sale-slider div.product-card,
+section.flash-sale .flash-sale-slider .product-card {
+    width: 240px !important;
+    min-width: 240px !important;
+    max-width: 240px !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    scroll-snap-align: start;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Nút mũi tên scroll - Style đẹp như hình với specificity cao */
+.flash-sale-wrapper .flash-sale-arrow,
+section.flash-sale .flash-sale-arrow,
+.flash-sale-arrow {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: white !important;
+    border: 1px solid #d0d0d0 !important;
+    border-radius: 50% !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    z-index: 10 !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.flash-sale-wrapper .flash-sale-arrow:hover,
+section.flash-sale .flash-sale-arrow:hover,
+.flash-sale-arrow:hover {
+    background: #f8f8f8 !important;
+    border-color: #b0b0b0 !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-50%) scale(1.05) !important;
+}
+
+.flash-sale-wrapper .flash-sale-arrow:active,
+section.flash-sale .flash-sale-arrow:active,
+.flash-sale-arrow:active {
+    transform: translateY(-50%) scale(0.95) !important;
+}
+
+.flash-sale-wrapper .flash-sale-arrow-left,
+section.flash-sale .flash-sale-arrow-left,
+.flash-sale-arrow-left {
+    left: 0 !important;
+}
+
+.flash-sale-wrapper .flash-sale-arrow-right,
+section.flash-sale .flash-sale-arrow-right,
+.flash-sale-arrow-right {
+    right: 0 !important;
+}
+
+.flash-sale-wrapper .flash-sale-arrow i,
+section.flash-sale .flash-sale-arrow i,
+.flash-sale-arrow i {
+    font-size: 16px !important;
+    color: #333 !important;
+    font-weight: 600 !important;
+    transition: color 0.3s ease !important;
+}
+
+.flash-sale-wrapper .flash-sale-arrow:hover i,
+section.flash-sale .flash-sale-arrow:hover i,
+.flash-sale-arrow:hover i {
+    color: #E30613 !important;
+}
+
+/* Ẩn nút khi không thể scroll */
+.flash-sale-arrow[style*="opacity: 0.5"] {
+    cursor: not-allowed;
+}
+
+/* MŨI TÊN INDICATOR GIỮA CÁC CARD - XÓA HOÀN TOÀN */
+.flash-sale-indicator {
+    display: none !important;
+}
+
+/* Scrollbar styling */
 .flash-sale-slider::-webkit-scrollbar {
     height: 6px;
+}
+
+.flash-sale-slider::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
 }
 
 .flash-sale-slider::-webkit-scrollbar-thumb {
     background: var(--primary);
     border-radius: 3px;
+}
+
+.flash-sale-slider::-webkit-scrollbar-thumb:hover {
+    background: #b00015;
+}
+
+/* Đảm bảo 5 sản phẩm nằm trên 1 hàng trên màn hình lớn */
+@media (min-width: 1400px) {
+    .flash-sale-wrapper {
+        padding: 0 60px;
+    }
+
+    .flash-sale-slider {
+        justify-content: flex-start;
+    }
+}
+
+/* Responsive: Ẩn nút mũi tên trên mobile */
+@media (max-width: 768px) {
+    .flash-sale-wrapper {
+        padding: 0; /* Bỏ padding trên mobile */
+    }
+
+    .flash-sale-arrow {
+        display: none !important;
+    }
+
+    .flash-sale-slider {
+        padding: 10px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .flash-sale-slider {
+        gap: 16px;
+    }
 }
 
 /* ===== PRODUCT CARD ===== */
@@ -366,7 +509,9 @@ body {
     box-shadow: var(--shadow);
     transition: var(--transition);
     position: relative;
-    width: 200px;
+    width: 240px;
+    min-width: 240px;
+    max-width: 240px;
     flex-shrink: 0;
     scroll-snap-align: start;
 }

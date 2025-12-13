@@ -15,7 +15,7 @@ public class UsersDAO {
     // FIND BY FULL NAME
     // ============================
     public Users findByName(String fullName) throws SQLException {
-        String sql = "SELECT * FROM users WHERE fullname = ?";
+        String sql = "SELECT * FROM users WHERE full_name = ?";
         try (Connection c = ConnectJDBC.getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
@@ -55,7 +55,7 @@ public class UsersDAO {
         u.setUsername(rs.getString("username"));
         u.setPassword(rs.getString("password"));   // DB: password_hash
         u.setEmail(rs.getString("email"));
-        u.setFullName(rs.getString("fullname"));
+        u.setFullName(rs.getString("full_name"));
         u.setPhone(rs.getString("phone_number"));
         u.setAddress(rs.getString("address"));
         u.setRole(rs.getBoolean("role"));               // TINYINT → boolean
@@ -86,7 +86,7 @@ public class UsersDAO {
     }
 
     public boolean update(Users user) {
-        String sql = "UPDATE users SET fullname = ?, email = ?, phone_number = ?, address = ?, role = ? WHERE user_id = ?";
+        String sql = "UPDATE users SET full_name = ?, email = ?, phone_number = ?, address = ?, role = ? WHERE user_id = ?";
 
         try (Connection conn = ConnectJDBC.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
